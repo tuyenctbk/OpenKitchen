@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - OpenKitchen</title>
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --primary-dark: #1B5E20;
+            --surface: #FFFFFF;
+            --background: #F8FAF9;
+            --text-primary: #1C1B1F;
+            --text-secondary: #49454F;
+            --border: #E0E2EC;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #81C784;
+                --primary-dark: #A5D6A7;
+                --surface: #1E1E1E;
+                --background: #121212;
+                --text-primary: #E6E1E5;
+                --text-secondary: #CAC4D0;
+                --border: #44474E;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--background);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 32px 24px;
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+        }
+
+        header {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin: 0 0 8px 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        h2 {
+            color: var(--text-primary);
+            margin-top: 32px;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        p, li {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        ul {
+            padding-left: 24px;
+            margin: 12px 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background-color: rgba(46, 125, 50, 0.08);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Privacy Policy</h1>
+            <p class="subtitle">Effective Date: September 5, 2026 | Application: <strong>OpenKitchen</strong></p>
+        </header>
+
+        <div class="highlight-box">
+            <p>Summary: OpenKitchen is built with privacy by design. We do not require user account registration, do not collect or sell personal identifiers, and store your personal recipe notes and bookmarks locally on your device.</p>
+        </div>
+
+        <h2>1. Information We Do Not Collect</h2>
+        <p>OpenKitchen respects your privacy and operates with minimal data requirements:</p>
+        <ul>
+            <li><strong>No User Accounts:</strong> You do not need to register, create a profile, or sign in.</li>
+            <li><strong>No Personal Identifiable Information (PII):</strong> We do not collect your name, physical address, phone number, or contacts.</li>
+            <li><strong>No Tracking &amp; No Targeted Advertising:</strong> We do not run third-party advertising SDKs or tracking pixels.</li>
+        </ul>
+
+        <h2>2. Information Stored Locally on Your Device</h2>
+        <p>To deliver a personalized and offline-ready cooking experience, the following information is stored strictly on your local device storage:</p>
+        <ul>
+            <li><strong>Bookmarked Recipes:</strong> Recipes you save to your offline cookbook.</li>
+            <li><strong>Portion Scaling Preferences:</strong> Serving sizes adjusted for individual dishes.</li>
+            <li><strong>Personal Culinary Notes:</strong> Your notes, cooking tweaks, and oven adjustments.</li>
+            <li><strong>App Preferences:</strong> Keep-screen-on toggles and measurement preferences.</li>
+        </ul>
+        <p>This data remains under your full control and is deleted whenever you uninstall the app or clear its application data via Android Settings.</p>
+
+        <h2>3. Device Permissions &amp; Network Requests</h2>
+        <p>OpenKitchen requires minimal Android permissions solely to perform its primary culinary functions:</p>
+        <ul>
+            <li><strong>INTERNET:</strong> Used exclusively to retrieve public culinary recipes, ingredients, and nutritional data from open recipe APIs (such as TheMealDB and Spoonacular).</li>
+            <li><strong>WAKE_LOCK (Keep Screen On):</strong> Used during active step-by-step Cook Mode to prevent the screen from sleeping while your hands are busy cooking. You can disable this anytime within Cook Mode.</li>
+            <li><strong>POST_NOTIFICATIONS:</strong> Used on Android 13+ solely to alert you when an active kitchen cooking timer has elapsed.</li>
+        </ul>
+
+        <h2>4. Third-Party Services</h2>
+        <p>When searching or discovering recipes online, the app communicates with public recipe databases to fetch recipe instructions, imagery, and nutritional breakdown. These network requests transmit standard HTTP request headers without any user identifiers.</p>
+
+        <h2>5. Children's Privacy</h2>
+        <p>OpenKitchen does not knowingly collect or solicit any personal information from children under the age of 13. The application is safe for culinary enthusiasts of all ages.</p>
+
+        <h2>6. Data Security</h2>
+        <p>All network communications with recipe service endpoints are conducted over encrypted HTTPS connections. Local data is secured within the Android sandbox storage allocated specifically to the application.</p>
+
+        <h2>7. Changes to This Privacy Policy</h2>
+        <p>We may update our Privacy Policy periodically to reflect app updates or regulatory requirements. Any updates will be published on this page with a revised effective date.</p>
+
+        <h2>8. Contact Us</h2>
+        <p>If you have any questions or feedback regarding this Privacy Policy or data privacy in OpenKitchen, please contact us at:</p>
+        <p><strong>Email:</strong> <a href="mailto:tuyenctbk@gmail.com">tuyenctbk@gmail.com</a></p>
+
+        <footer>
+            &copy; 2026 OpenKitchen. All rights reserved. Built for cooking enthusiasts worldwide.
+        </footer>
+    </div>
+</body>
+</html>

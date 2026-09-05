@@ -1,0 +1,125 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Rising Gourmet Steam Swirls -->
+    <path
+        android:pathData="M46,26 C43,23 47,19 45,16 C43,13 40,15 41,18"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FFCC80"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M54,24 C51,21 55,17 53,14 C51,11 48,13 49,16"
+        android:strokeWidth="2.2"
+        android:strokeColor="#FFE082"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M62,26 C59,23 63,19 61,16 C59,13 56,15 57,18"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FFCC80"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+
+    <!-- Chef Hat Silhouetted Crown -->
+    <!-- Center puff -->
+    <path
+        android:fillColor="#FFF8E7"
+        android:pathData="M54,28 C49,28 46,31 44,34 C40,31 35,34 36,39 C33,41 33,47 37,51 C39,52 42,53 44,53 L64,53 C66,53 69,52 71,51 C75,47 75,41 72,39 C73,34 68,31 64,34 C62,31 59,28 54,28 Z" />
+
+    <!-- Chef Hat Fold Lines -->
+    <path
+        android:pathData="M48,34 C49,39 50,47 50,53 M54,30 C54,38 54,46 54,53 M60,34 C59,39 58,47 58,53"
+        android:strokeWidth="1.2"
+        android:strokeColor="#E6D3B3"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+
+    <!-- Golden Chef Band / Cloche Rim Interlock -->
+    <path
+        android:fillColor="#FFA000"
+        android:pathData="M41,54 L67,54 A2,2 0 0,1 69,56 L69,58 A2,2 0 0,1 67,60 L41,60 A2,2 0 0,1 39,58 L39,56 A2,2 0 0,1 41,54 Z" />
+
+    <!-- Cloche Food Dome Base (Terracotta & Crimson) -->
+    <path
+        android:pathData="M32,64 C32,53 42,47 54,47 C66,47 76,53 76,64 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:angle="90"
+                android:startX="54"
+                android:startY="47"
+                android:endX="54"
+                android:endY="64"
+                android:type="linear">
+                <item android:color="#FF7043" android:offset="0.0" />
+                <item android:color="#D84315" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Cloche Specular Highlight Sheen -->
+    <path
+        android:pathData="M40,52 C45,49 52,49 56,50"
+        android:strokeWidth="1.8"
+        android:strokeColor="#80FFFFFF"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+
+    <!-- Cloche Handle / Knob (Gold) -->
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M54,44m-3.5,0a3.5,3.5 0 1,0 7,0a3.5,3.5 0 1,0 -7,0" />
+
+    <!-- Platter Serving Tray Rim -->
+    <path
+        android:fillColor="#BF360C"
+        android:pathData="M27,64 L81,64 C83,64 84,65 83,67 L80,70 L28,70 L25,67 C24,65 25,64 27,64 Z" />
+
+    <!-- Platter Gold Accent Line -->
+    <path
+        android:pathData="M30,67 L78,67"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FFD54F"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+
+    <!-- Crossed Utensils (Chef Spoon & Spatula/Knife) -->
+    <!-- Spoon angled left to right -->
+    <path
+        android:pathData="M34,86 L74,73"
+        android:strokeWidth="2.2"
+        android:strokeColor="#FFE082"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M73,71 C75,70 78,72 77,75 C76,77 73,76 72,74 Z" />
+
+    <!-- Spatula/Knife angled right to left -->
+    <path
+        android:pathData="M74,86 L34,73"
+        android:strokeWidth="2.2"
+        android:strokeColor="#FFE082"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M35,71 C33,70 30,72 31,75 C32,77 35,76 36,74 Z" />
+
+    <!-- Center Joint Pin -->
+    <path
+        android:fillColor="#FFA000"
+        android:pathData="M54,79.5m-2,0a2,2 0 1,0 4,0a2,2 0 1,0 -4,0" />
+
+    <!-- Michelin Quality Golden Stars -->
+    <path
+        android:fillColor="#FFE082"
+        android:pathData="M78,36 L79.5,39.5 L83,41 L79.5,42.5 L78,46 L76.5,42.5 L73,41 L76.5,39.5 Z" />
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M30,40 L31,42.5 L33.5,43.5 L31,44.5 L30,47 L29,44.5 L26.5,43.5 L29,42.5 Z" />
+</vector>

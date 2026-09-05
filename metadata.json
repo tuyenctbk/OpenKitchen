@@ -1,0 +1,6 @@
+{
+  "name": "OpenKitchen",
+  "description": "Free, ad-free culinary recipe companion optimized for Android TV, tablets, and mobile with step-by-step cook mode and open APIs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
