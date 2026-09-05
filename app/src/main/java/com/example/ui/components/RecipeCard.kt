@@ -163,7 +163,9 @@ fun RecipeCard(
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                        letterSpacing = 0.5.sp
+                        letterSpacing = 0.5.sp,
+                        maxLines = 1,
+                        softWrap = false
                     )
                 }
 
@@ -208,7 +210,8 @@ fun RecipeCard(
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Row(
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Icon(
                         imageVector = Icons.Default.Schedule,
@@ -220,13 +223,17 @@ fun RecipeCard(
                     Text(
                         text = stringResource(R.string.prep_time_minutes_format, recipe.prepTimeMinutes),
                         color = Color(0xFFE6E1E5),
-                        fontSize = 12.sp
+                        fontSize = 12.sp,
+                        maxLines = 1,
+                        softWrap = false
                     )
 
                     Text(
                         text = " • ",
                         color = Color(0xFFCAC4D0),
-                        fontSize = 12.sp
+                        fontSize = 12.sp,
+                        maxLines = 1,
+                        softWrap = false
                     )
 
                     Icon(
@@ -240,39 +247,26 @@ fun RecipeCard(
                         text = recipe.difficulty,
                         color = Color(0xFFE6E1E5),
                         fontSize = 12.sp,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Medium,
+                        maxLines = 1,
+                        softWrap = false
                     )
 
                     Text(
                         text = " • ",
                         color = Color(0xFFCAC4D0),
-                        fontSize = 12.sp
+                        fontSize = 12.sp,
+                        maxLines = 1,
+                        softWrap = false
                     )
 
                     Text(
                         text = recipe.area,
                         color = Color(0xFFCAC4D0),
-                        fontSize = 12.sp
-                    )
-
-                    Text(
-                        text = " • ",
-                        color = Color(0xFFCAC4D0),
-                        fontSize = 12.sp
-                    )
-
-                    Icon(
-                        imageVector = Icons.Default.LocalFireDepartment,
-                        contentDescription = stringResource(R.string.calories_desc),
-                        tint = Color(0xFFFFB4AB),
-                        modifier = Modifier.size(14.dp)
-                    )
-                    Spacer(modifier = Modifier.width(3.dp))
-                    Text(
-                        text = stringResource(R.string.calories_kcal_format, recipe.nutrition.calories),
-                        color = Color(0xFFE6E1E5),
                         fontSize = 12.sp,
-                        fontWeight = FontWeight.Medium
+                        maxLines = 1,
+                        softWrap = false,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }
