@@ -53,15 +53,17 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         field.get(null) as? String ?: ""
     }.getOrDefault("")
 
+    private val _uiState = MutableStateFlow(RecipeUiState())
+    val uiState: StateFlow<RecipeUiState> = _uiState.asStateFlow()
+
     init {
         val db = AppDatabase.getInstance(application)
         val api = TheMealDbApi.create()
         val spoonApi = SpoonacularApi.create()
         repository = RecipeRepository(api, spoonApi, db.recipeDao(), db.favoriteDao())
+        loadInitialData()
+        loadFilteredRecipes("Breakfast", null, null, "")
     }
-
-    private val _uiState = MutableStateFlow(RecipeUiState())
-    val uiState: StateFlow<RecipeUiState> = _uiState.asStateFlow()
 
     val savedRecipes: StateFlow<List<Recipe>> = repository.savedRecipes
         .stateIn(
@@ -76,11 +78,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
-
-    init {
-        loadInitialData()
-        loadFilteredRecipes("Breakfast", null, null, "")
-    }
 
     fun loadInitialData() {
         viewModelScope.launch {
@@ -182,7 +179,14 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun toggleBookmark(recipe: Recipe) {
         viewModelScope.launch {
-            repository.toggleSave(recipe, _uiState.value.userNotesDraft)
+            // Only pass the current notes draft when this is the actively-viewed recipe.
+            // If toggled from a list card, the draft might belong to a different recipe.
+            val notes = if (_uiState.value.activeRecipe?.id == recipe.id) {
+                _uiState.value.userNotesDraft
+            } else {
+                recipe.userNotes.orEmpty()
+            }
+            repository.toggleSave(recipe, notes)
         }
     }
 

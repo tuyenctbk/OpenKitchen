@@ -113,7 +113,8 @@ fun CookModeScreen(
                         Text(
                             text = recipe.name,
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
-                            maxLines = 1
+                            maxLines = 1,
+                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                         )
                         Text(
                             text = stringResource(R.string.cook_mode_step_format, currentStepIndex + 1, totalSteps),
@@ -125,7 +126,7 @@ fun CookModeScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = onExitCookMode,
-                        modifier = Modifier.tvFocusable("btn_exit_cook_mode", shape = CircleShape)
+                        modifier = Modifier.tvFocusable("btn_exit_cook_mode", shape = CircleShape, onClick = onExitCookMode)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
@@ -135,9 +136,10 @@ fun CookModeScreen(
                 },
                 actions = {
                     // Quick Ingredients Sheet Toggle
+                    val toggleIngredientsAction = { showIngredientsSheet = true }
                     IconButton(
-                        onClick = { showIngredientsSheet = true },
-                        modifier = Modifier.tvFocusable("btn_cook_ingredients", shape = CircleShape)
+                        onClick = toggleIngredientsAction,
+                        modifier = Modifier.tvFocusable("btn_cook_ingredients", shape = CircleShape, onClick = toggleIngredientsAction)
                     ) {
                         Icon(
                             imageVector = Icons.Default.FormatListBulleted,
@@ -149,7 +151,7 @@ fun CookModeScreen(
                     // Keep Screen Awake Toggle
                     IconButton(
                         onClick = onToggleKeepScreenOn,
-                        modifier = Modifier.tvFocusable("btn_toggle_wake_lock", shape = CircleShape)
+                        modifier = Modifier.tvFocusable("btn_toggle_wake_lock", shape = CircleShape, onClick = onToggleKeepScreenOn)
                     ) {
                         Icon(
                             imageVector = if (keepScreenOn) Icons.Default.StayCurrentPortrait else Icons.Default.ScreenLockPortrait,
@@ -190,7 +192,7 @@ fun CookModeScreen(
                         shape = RoundedCornerShape(14.dp),
                         modifier = Modifier
                             .height(52.dp)
-                            .tvFocusable("btn_cook_prev_step", shape = RoundedCornerShape(14.dp))
+                            .tvFocusable("btn_cook_prev_step", shape = RoundedCornerShape(14.dp), onClick = if (currentStepIndex > 0) onPrevStep else null)
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -198,18 +200,23 @@ fun CookModeScreen(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(modifier = Modifier.width(6.dp))
-                        Text(stringResource(R.string.btn_previous))
+                        Text(
+                            text = stringResource(R.string.btn_previous),
+                            maxLines = 1,
+                            softWrap = false
+                        )
                     }
 
                     // Next / Finish Button
+                    val nextAction = {
+                        if (isLastStep) {
+                            onExitCookMode()
+                        } else {
+                            onNextStep()
+                        }
+                    }
                     Button(
-                        onClick = {
-                            if (isLastStep) {
-                                onExitCookMode()
-                            } else {
-                                onNextStep()
-                            }
-                        },
+                        onClick = nextAction,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.onPrimary
@@ -217,12 +224,14 @@ fun CookModeScreen(
                         shape = RoundedCornerShape(14.dp),
                         modifier = Modifier
                             .height(52.dp)
-                            .tvFocusable("btn_cook_next_step", shape = RoundedCornerShape(14.dp))
+                            .tvFocusable("btn_cook_next_step", shape = RoundedCornerShape(14.dp), onClick = nextAction)
                     ) {
                         Text(
                             text = if (isLastStep) stringResource(R.string.btn_complete_dish) else stringResource(R.string.btn_next_step),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 14.sp
+                            fontSize = 14.sp,
+                            maxLines = 1,
+                            softWrap = false
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Icon(
@@ -241,7 +250,7 @@ fun CookModeScreen(
                 .padding(innerPadding)
         ) {
             // Overall Progress Bar
-            val progress = ((currentStepIndex + 1).toFloat() / totalSteps.toFloat()).coerceIn(0f, 1f)
+            val progress = ((currentStepIndex + 1).toFloat() / totalSteps.coerceAtLeast(1).toFloat()).coerceIn(0f, 1f)
             LinearProgressIndicator(
                 progress = { progress },
                 modifier = Modifier

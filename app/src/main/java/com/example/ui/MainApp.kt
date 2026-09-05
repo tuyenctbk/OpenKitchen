@@ -16,14 +16,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.MenuBook
@@ -45,7 +42,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -92,7 +88,7 @@ fun MainApp(viewModel: RecipeViewModel) {
             recipe = state.activeRecipe!!,
             currentStepIndex = state.activeCookStepIndex,
             keepScreenOn = state.keepScreenOn,
-            servingMultiplier = state.activeServings.toFloat() / state.activeRecipe!!.baseServings.toFloat(),
+            servingMultiplier = state.activeServings.toFloat() / state.activeRecipe!!.baseServings.coerceAtLeast(1).toFloat(),
             onStepChange = { viewModel.setCookStep(it) },
             onNextStep = { viewModel.nextCookStep() },
             onPrevStep = { viewModel.prevCookStep() },
@@ -178,7 +174,12 @@ fun MainApp(viewModel: RecipeViewModel) {
                             unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                         ),
-                        modifier = Modifier.tvFocusable("rail_nav_discover", shape = RoundedCornerShape(12.dp))
+                        modifier = Modifier.tvFocusable(
+                            tag = "rail_nav_discover",
+                            shape = RoundedCornerShape(12.dp),
+                            unfocusedBorderWidth = 0.dp,
+                            onClick = { currentDestination = AppDestination.DISCOVER }
+                        )
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -200,7 +201,12 @@ fun MainApp(viewModel: RecipeViewModel) {
                             unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                         ),
-                        modifier = Modifier.tvFocusable("rail_nav_filter", shape = RoundedCornerShape(12.dp))
+                        modifier = Modifier.tvFocusable(
+                            tag = "rail_nav_filter",
+                            shape = RoundedCornerShape(12.dp),
+                            unfocusedBorderWidth = 0.dp,
+                            onClick = { currentDestination = AppDestination.FILTER }
+                        )
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -222,7 +228,12 @@ fun MainApp(viewModel: RecipeViewModel) {
                             unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                         ),
-                        modifier = Modifier.tvFocusable("rail_nav_search", shape = RoundedCornerShape(12.dp))
+                        modifier = Modifier.tvFocusable(
+                            tag = "rail_nav_search",
+                            shape = RoundedCornerShape(12.dp),
+                            unfocusedBorderWidth = 0.dp,
+                            onClick = { currentDestination = AppDestination.SEARCH }
+                        )
                     )
 
                     Spacer(modifier = Modifier.height(10.dp))
@@ -244,7 +255,12 @@ fun MainApp(viewModel: RecipeViewModel) {
                             unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                         ),
-                        modifier = Modifier.tvFocusable("rail_nav_cookbook", shape = RoundedCornerShape(12.dp))
+                        modifier = Modifier.tvFocusable(
+                            tag = "rail_nav_cookbook",
+                            shape = RoundedCornerShape(12.dp),
+                            unfocusedBorderWidth = 0.dp,
+                            onClick = { currentDestination = AppDestination.COOKBOOK }
+                        )
                     )
                 }
 
@@ -355,7 +371,7 @@ fun MainApp(viewModel: RecipeViewModel) {
                                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                 unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                             ),
-                            modifier = Modifier.tvFocusable("nav_discover")
+                            modifier = Modifier.testTag("nav_discover")
                         )
 
                         NavigationBarItem(
@@ -381,7 +397,7 @@ fun MainApp(viewModel: RecipeViewModel) {
                                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                 unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                             ),
-                            modifier = Modifier.tvFocusable("nav_filter")
+                            modifier = Modifier.testTag("nav_filter")
                         )
 
                         NavigationBarItem(
@@ -407,7 +423,7 @@ fun MainApp(viewModel: RecipeViewModel) {
                                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                 unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                             ),
-                            modifier = Modifier.tvFocusable("nav_search")
+                            modifier = Modifier.testTag("nav_search")
                         )
 
                         NavigationBarItem(
@@ -433,7 +449,7 @@ fun MainApp(viewModel: RecipeViewModel) {
                                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                 unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                             ),
-                            modifier = Modifier.tvFocusable("nav_cookbook")
+                            modifier = Modifier.testTag("nav_cookbook")
                         )
                     }
                 }

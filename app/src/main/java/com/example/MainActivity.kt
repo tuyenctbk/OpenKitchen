@@ -12,15 +12,25 @@ import com.example.ui.MainApp
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.viewmodel.RecipeViewModel
 
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import com.example.ui.components.LocalIsTvDevice
+import com.example.ui.components.isTvDevice
+
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     enableEdgeToEdge()
     setContent {
-      MyApplicationTheme(darkTheme = false) {
-        Surface(modifier = Modifier.fillMaxSize()) {
-          val recipeViewModel: RecipeViewModel = viewModel()
-          MainApp(viewModel = recipeViewModel)
+      val context = LocalContext.current
+      val isTv = remember(context) { context.isTvDevice() }
+      CompositionLocalProvider(LocalIsTvDevice provides isTv) {
+        MyApplicationTheme(darkTheme = false) {
+          Surface(modifier = Modifier.fillMaxSize()) {
+            val recipeViewModel: RecipeViewModel = viewModel()
+            MainApp(viewModel = recipeViewModel)
+          }
         }
       }
     }

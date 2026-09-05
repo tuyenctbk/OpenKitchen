@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -42,7 +44,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -117,7 +118,11 @@ fun CategoryFilterScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column {
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 12.dp)
+                ) {
                     Text(
                         text = stringResource(R.string.category_filter_title),
                         style = MaterialTheme.typography.headlineMedium.copy(
@@ -136,12 +141,15 @@ fun CategoryFilterScreen(
 
                 Surface(
                     color = MaterialTheme.colorScheme.primaryContainer,
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .defaultMinSize(minHeight = 32.dp)
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.FilterAlt,
@@ -153,7 +161,9 @@ fun CategoryFilterScreen(
                             text = stringResource(R.string.dishes_count, recipes.size),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            maxLines = 1,
+                            softWrap = false
                         )
                     }
                 }
@@ -220,7 +230,9 @@ fun CategoryFilterScreen(
                         Text(
                             text = stringResource(item.labelRes),
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                            fontSize = 13.sp
+                            fontSize = 13.sp,
+                            maxLines = 1,
+                            softWrap = false
                         )
                     },
                     leadingIcon = {
@@ -243,7 +255,11 @@ fun CategoryFilterScreen(
                         enabled = true,
                         selected = false
                     ),
-                    modifier = Modifier.tvFocusable("category_chip_${item.name}", shape = RoundedCornerShape(14.dp))
+                    modifier = Modifier.tvFocusable(
+                        tag = "category_chip_${item.name}",
+                        shape = RoundedCornerShape(14.dp),
+                        onClick = { onCategorySelected(item.name) }
+                    )
                 )
             }
         }
@@ -271,18 +287,23 @@ fun CategoryFilterScreen(
                     color = if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
                     shape = RoundedCornerShape(10.dp),
                     border = if (isSelected) BorderStroke(1.dp, MaterialTheme.colorScheme.secondary) else null,
-                    modifier = Modifier.tvFocusable(
-                        tag = "time_chip_${filterItem.minutes ?: "any"}",
-                        shape = RoundedCornerShape(10.dp),
-                        onClick = { onMaxTimeSelected(filterItem.minutes) }
-                    )
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .defaultMinSize(minHeight = 32.dp)
+                        .tvFocusable(
+                            tag = "time_chip_${filterItem.minutes ?: "any"}",
+                            shape = RoundedCornerShape(10.dp),
+                            onClick = { onMaxTimeSelected(filterItem.minutes) }
+                        )
                 ) {
                     Text(
                         text = labelText,
                         fontSize = 11.sp,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                         color = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                        maxLines = 1,
+                        softWrap = false
                     )
                 }
             }

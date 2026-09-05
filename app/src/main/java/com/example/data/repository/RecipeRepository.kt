@@ -266,10 +266,10 @@ class RecipeRepository(
             if (meal != null) {
                 Recipe.fromDto(meal)
             } else {
-                CuratedRecipes.featuredRecipes.random()
+                CuratedRecipes.featuredRecipes.randomOrNull() ?: CuratedRecipes.featuredRecipes.first()
             }
         } catch (e: Exception) {
-            CuratedRecipes.featuredRecipes.random()
+            CuratedRecipes.featuredRecipes.randomOrNull() ?: CuratedRecipes.featuredRecipes.first()
         }
     }
 

@@ -153,30 +153,44 @@ fun StepTimerComponent(
             ) {
                 // Quick Add +1 min & +5 mins
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    val add1mAction = {
+                        totalSeconds += 60
+                        remainingSeconds += 60
+                        isFinished = false
+                    }
                     OutlinedButton(
-                        onClick = {
-                            totalSeconds += 60
-                            remainingSeconds += 60
-                            isFinished = false
-                        },
+                        onClick = add1mAction,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)),
                         shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier.tvFocusable("btn_add_1min", shape = RoundedCornerShape(10.dp))
+                        modifier = Modifier.tvFocusable("btn_add_1min", shape = RoundedCornerShape(10.dp), onClick = add1mAction)
                     ) {
-                        Text("+1m", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface)
+                        Text(
+                            text = "+1m",
+                            fontSize = 12.sp,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            maxLines = 1,
+                            softWrap = false
+                        )
                     }
 
+                    val add5mAction = {
+                        totalSeconds += 300
+                        remainingSeconds += 300
+                        isFinished = false
+                    }
                     OutlinedButton(
-                        onClick = {
-                            totalSeconds += 300
-                            remainingSeconds += 300
-                            isFinished = false
-                        },
+                        onClick = add5mAction,
                         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)),
                         shape = RoundedCornerShape(10.dp),
-                        modifier = Modifier.tvFocusable("btn_add_5min", shape = RoundedCornerShape(10.dp))
+                        modifier = Modifier.tvFocusable("btn_add_5min", shape = RoundedCornerShape(10.dp), onClick = add5mAction)
                     ) {
-                        Text("+5m", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurface)
+                        Text(
+                            text = "+5m",
+                            fontSize = 12.sp,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            maxLines = 1,
+                            softWrap = false
+                        )
                     }
                 }
 
@@ -185,13 +199,14 @@ fun StepTimerComponent(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    val resetAction = {
+                        remainingSeconds = totalSeconds
+                        isRunning = false
+                        isFinished = false
+                    }
                     IconButton(
-                        onClick = {
-                            remainingSeconds = totalSeconds
-                            isRunning = false
-                            isFinished = false
-                        },
-                        modifier = Modifier.tvFocusable("btn_reset_timer", shape = CircleShape)
+                        onClick = resetAction,
+                        modifier = Modifier.tvFocusable("btn_reset_timer", shape = CircleShape, onClick = resetAction)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Refresh,
@@ -200,22 +215,23 @@ fun StepTimerComponent(
                         )
                     }
 
+                    val toggleAction = {
+                        if (isFinished) {
+                            remainingSeconds = totalSeconds
+                            isFinished = false
+                            isRunning = true
+                        } else {
+                            isRunning = !isRunning
+                        }
+                    }
                     Button(
-                        onClick = {
-                            if (isFinished) {
-                                remainingSeconds = totalSeconds
-                                isFinished = false
-                                event@ isRunning = true
-                            } else {
-                                isRunning = !isRunning
-                            }
-                        },
+                        onClick = toggleAction,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.onPrimary
                         ),
                         shape = RoundedCornerShape(12.dp),
-                        modifier = Modifier.tvFocusable("btn_toggle_timer", shape = RoundedCornerShape(12.dp))
+                        modifier = Modifier.tvFocusable("btn_toggle_timer", shape = RoundedCornerShape(12.dp), onClick = toggleAction)
                     ) {
                         Icon(
                             imageVector = if (isRunning) Icons.Default.Pause else Icons.Default.PlayArrow,
@@ -225,7 +241,9 @@ fun StepTimerComponent(
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = if (isRunning) stringResource(R.string.btn_pause) else if (isFinished) stringResource(R.string.btn_restart) else stringResource(R.string.btn_start),
-                            fontSize = 13.sp
+                            fontSize = 13.sp,
+                            maxLines = 1,
+                            softWrap = false
                         )
                     }
                 }

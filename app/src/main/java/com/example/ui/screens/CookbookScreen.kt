@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -114,7 +115,9 @@ fun CookbookScreen(
                         contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                     ),
                     shape = RoundedCornerShape(14.dp),
-                    modifier = Modifier.tvFocusable("btn_empty_explore", shape = RoundedCornerShape(14.dp))
+                    modifier = Modifier
+                        .defaultMinSize(minHeight = 44.dp)
+                        .tvFocusable("btn_empty_explore", shape = RoundedCornerShape(14.dp), onClick = onExploreClick)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Explore,
@@ -124,7 +127,9 @@ fun CookbookScreen(
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = stringResource(R.string.btn_explore_recipes),
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                        softWrap = false
                     )
                 }
             }
@@ -250,7 +255,7 @@ fun SavedRecipeCard(
                 // Delete button
                 IconButton(
                     onClick = onRemove,
-                    modifier = Modifier.tvFocusable("btn_remove_saved_${recipe.id}", shape = CircleShape)
+                    modifier = Modifier.tvFocusable("btn_remove_saved_${recipe.id}", shape = CircleShape, onClick = onRemove)
                 ) {
                     Icon(
                         imageVector = Icons.Default.BookmarkRemove,
@@ -302,12 +307,16 @@ fun SavedRecipeCard(
                     onClick = onClick,
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                     shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier.tvFocusable("btn_view_saved_${recipe.id}", shape = RoundedCornerShape(12.dp))
+                    modifier = Modifier
+                        .defaultMinSize(minHeight = 36.dp)
+                        .tvFocusable("btn_view_saved_${recipe.id}", shape = RoundedCornerShape(12.dp), onClick = onClick)
                 ) {
                     Text(
                         text = stringResource(R.string.btn_view_details),
                         fontSize = 12.sp,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 1,
+                        softWrap = false
                     )
                 }
 
@@ -320,7 +329,9 @@ fun SavedRecipeCard(
                         contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                     ),
                     shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier.tvFocusable("btn_cook_saved_${recipe.id}", shape = RoundedCornerShape(12.dp))
+                    modifier = Modifier
+                        .defaultMinSize(minHeight = 36.dp)
+                        .tvFocusable("btn_cook_saved_${recipe.id}", shape = RoundedCornerShape(12.dp), onClick = onStartCooking)
                 ) {
                     Icon(
                         imageVector = Icons.Default.PlayArrow,
@@ -331,7 +342,9 @@ fun SavedRecipeCard(
                     Text(
                         text = stringResource(R.string.btn_cook),
                         fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        softWrap = false
                     )
                 }
             }

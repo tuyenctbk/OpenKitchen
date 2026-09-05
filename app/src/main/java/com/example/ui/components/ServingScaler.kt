@@ -60,14 +60,15 @@ fun ServingScaler(
             )
 
             // Decrement Button
+            val decreaseAction = { if (currentServings > 1) onServingsChange(currentServings - 1) }
             IconButton(
-                onClick = { if (currentServings > 1) onServingsChange(currentServings - 1) },
+                onClick = decreaseAction,
                 enabled = currentServings > 1,
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
                     .background(if (currentServings > 1) MaterialTheme.colorScheme.surface else Color.Transparent)
-                    .tvFocusable("btn_decrease_servings", shape = CircleShape)
+                    .tvFocusable("btn_decrease_servings", shape = CircleShape, onClick = if (currentServings > 1) decreaseAction else null)
             ) {
                 Icon(
                     imageVector = Icons.Default.Remove,
@@ -85,14 +86,15 @@ fun ServingScaler(
             )
 
             // Increment Button
+            val increaseAction = { if (currentServings < 16) onServingsChange(currentServings + 1) }
             IconButton(
-                onClick = { if (currentServings < 16) onServingsChange(currentServings + 1) },
+                onClick = increaseAction,
                 enabled = currentServings < 16,
                 modifier = Modifier
                     .size(36.dp)
                     .clip(CircleShape)
                     .background(if (currentServings < 16) MaterialTheme.colorScheme.surface else Color.Transparent)
-                    .tvFocusable("btn_increase_servings", shape = CircleShape)
+                    .tvFocusable("btn_increase_servings", shape = CircleShape, onClick = if (currentServings < 16) increaseAction else null)
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,

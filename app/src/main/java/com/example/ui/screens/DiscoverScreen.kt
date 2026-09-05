@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -188,7 +190,11 @@ fun DiscoverScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(end = 12.dp)
+                    ) {
                         Text(
                             text = stringResource(R.string.browse_category_diet_title),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
@@ -203,27 +209,36 @@ fun DiscoverScreen(
 
                     if (onOpenFilterScreen != null) {
                         Surface(
-                            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.7f),
+                            color = MaterialTheme.colorScheme.primaryContainer,
                             shape = RoundedCornerShape(12.dp),
-                            modifier = Modifier.tvFocusable("btn_open_full_filter", shape = RoundedCornerShape(12.dp))
+                            shadowElevation = 1.dp,
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .defaultMinSize(minHeight = 36.dp)
+                                .tvFocusable(
+                                    tag = "btn_open_full_filter",
+                                    shape = RoundedCornerShape(12.dp),
+                                    onClick = onOpenFilterScreen
+                                )
                         ) {
                             Row(
                                 modifier = Modifier
-                                    .clickable { onOpenFilterScreen() }
-                                    .padding(horizontal = 10.dp, vertical = 6.dp),
+                                    .padding(horizontal = 12.dp, vertical = 8.dp),
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                horizontalArrangement = Arrangement.spacedBy(6.dp)
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.FilterAlt,
                                     contentDescription = null,
                                     tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                    modifier = Modifier.size(14.dp)
+                                    modifier = Modifier.size(16.dp)
                                 )
                                 Text(
                                     text = stringResource(R.string.all_filters),
                                     fontSize = 12.sp,
-                                    fontWeight = FontWeight.SemiBold,
+                                    fontWeight = FontWeight.Bold,
+                                    maxLines = 1,
+                                    softWrap = false,
                                     color = MaterialTheme.colorScheme.onPrimaryContainer
                                 )
                             }
@@ -265,7 +280,9 @@ fun DiscoverScreen(
                                 Text(
                                     text = category.strCategory,
                                     fontSize = 13.sp,
-                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
+                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                                    maxLines = 1,
+                                    softWrap = false
                                 )
                             },
                             colors = FilterChipDefaults.filterChipColors(
@@ -276,7 +293,11 @@ fun DiscoverScreen(
                             ),
                             border = if (isSelected) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)),
                             shape = RoundedCornerShape(12.dp),
-                            modifier = Modifier.tvFocusable("chip_cat_${category.strCategory}", shape = RoundedCornerShape(12.dp))
+                            modifier = Modifier.tvFocusable(
+                                tag = "chip_cat_${category.strCategory}",
+                                shape = RoundedCornerShape(12.dp),
+                                onClick = { onCategorySelect(category.strCategory) }
+                            )
                         )
                     }
                 }
@@ -510,7 +531,9 @@ fun FeaturedHeroBanner(
                             contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                         ),
                         shape = RoundedCornerShape(12.dp),
-                        modifier = Modifier.tvFocusable("btn_hero_start_cooking", shape = RoundedCornerShape(12.dp))
+                        modifier = Modifier
+                            .defaultMinSize(minHeight = 44.dp)
+                            .tvFocusable("btn_hero_start_cooking", shape = RoundedCornerShape(12.dp), onClick = onStartCooking)
                     ) {
                         Icon(
                             imageVector = Icons.Default.PlayArrow,
@@ -521,7 +544,9 @@ fun FeaturedHeroBanner(
                         Text(
                             text = stringResource(R.string.btn_start_cooking),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 13.sp
+                            fontSize = 13.sp,
+                            maxLines = 1,
+                            softWrap = false
                         )
                     }
 
@@ -532,7 +557,9 @@ fun FeaturedHeroBanner(
                         ),
                         border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.4f)),
                         shape = RoundedCornerShape(12.dp),
-                        modifier = Modifier.tvFocusable("btn_hero_surprise", shape = RoundedCornerShape(12.dp))
+                        modifier = Modifier
+                            .defaultMinSize(minHeight = 44.dp)
+                            .tvFocusable("btn_hero_surprise", shape = RoundedCornerShape(12.dp), onClick = onSurpriseMe)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Casino,
@@ -540,7 +567,12 @@ fun FeaturedHeroBanner(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(modifier = Modifier.width(6.dp))
-                        Text(stringResource(R.string.btn_surprise_dish), fontSize = 13.sp)
+                        Text(
+                            text = stringResource(R.string.btn_surprise_dish),
+                            fontSize = 13.sp,
+                            maxLines = 1,
+                            softWrap = false
+                        )
                     }
                 }
             }

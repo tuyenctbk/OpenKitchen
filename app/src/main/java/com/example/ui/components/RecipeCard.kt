@@ -97,24 +97,24 @@ fun RecipeCard(
                 modifier = Modifier.fillMaxSize()
             )
 
-            // Bottom Gradient for pristine legibility
+            // Bottom Gradient for pristine legibility across any bright or dark recipe photo
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
                         Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                if (isFocused) Color(0x55000000) else Color(0x33000000),
-                                Color(0xF01D1B20)
-                            ),
-                            startY = 60f
+                            0.0f to Color.Transparent,
+                            0.35f to Color(0x33000000),
+                            0.62f to Color(0xCC121212),
+                            1.0f to Color(0xFA121212)
                         )
                     )
             )
 
-            // TV Focus Indicator Badge
-            if (isFocused) {
+            // TV Focus Indicator Badge (Only shown on TV devices)
+            val context = LocalContext.current
+            val isTv = LocalIsTvDevice.current || context.isTvDevice()
+            if (isTv && isFocused) {
                 Surface(
                     color = MaterialTheme.colorScheme.primary,
                     shape = RoundedCornerShape(12.dp),

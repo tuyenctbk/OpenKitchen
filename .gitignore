@@ -14,5 +14,10 @@
 .externalNativeBuild
 .cxx
 local.properties
+/local.properties
 .env
+*.jks
+*.keystore
+common_release_key.jks
+my-upload-key.jks
 debug.keystore

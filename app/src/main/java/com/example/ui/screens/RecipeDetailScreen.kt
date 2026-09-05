@@ -6,6 +6,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -104,13 +106,14 @@ fun RecipeDetailScreen(
                     Text(
                         text = recipe.name,
                         maxLines = 1,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold)
                     )
                 },
                 navigationIcon = {
                     IconButton(
                         onClick = onBack,
-                        modifier = Modifier.tvFocusable("btn_detail_back", shape = CircleShape)
+                        modifier = Modifier.tvFocusable("btn_detail_back", shape = CircleShape, onClick = onBack)
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -126,7 +129,10 @@ fun RecipeDetailScreen(
                                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(recipe.youtubeUrl))
                                 context.startActivity(intent)
                             },
-                            modifier = Modifier.tvFocusable("btn_youtube_video", shape = CircleShape)
+                            modifier = Modifier.tvFocusable("btn_youtube_video", shape = CircleShape, onClick = {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(recipe.youtubeUrl))
+                                context.startActivity(intent)
+                            })
                         ) {
                             Icon(
                                 imageVector = Icons.Default.PlayCircleFilled,
@@ -138,7 +144,7 @@ fun RecipeDetailScreen(
 
                     IconButton(
                         onClick = onBookmarkToggle,
-                        modifier = Modifier.tvFocusable("btn_detail_bookmark", shape = CircleShape)
+                        modifier = Modifier.tvFocusable("btn_detail_bookmark", shape = CircleShape, onClick = onBookmarkToggle)
                     ) {
                         Icon(
                             imageVector = if (isBookmarked) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
@@ -175,9 +181,9 @@ fun RecipeDetailScreen(
                         ),
                         shape = RoundedCornerShape(16.dp),
                         modifier = Modifier
-                            .weight(1f)
+                            .fillMaxWidth()
                             .height(52.dp)
-                            .tvFocusable("btn_start_cooking_bottom", shape = RoundedCornerShape(16.dp))
+                            .tvFocusable("btn_start_cooking_bottom", shape = RoundedCornerShape(16.dp), onClick = onStartCooking)
                     ) {
                         Icon(
                             imageVector = Icons.Default.PlayArrow,
@@ -189,7 +195,9 @@ fun RecipeDetailScreen(
                             text = stringResource(R.string.btn_start_cooking_caps),
                             fontWeight = FontWeight.Bold,
                             fontSize = 14.sp,
-                            letterSpacing = 0.5.sp
+                            letterSpacing = 0.5.sp,
+                            maxLines = 1,
+                            softWrap = false
                         )
                     }
                 }
@@ -333,7 +341,10 @@ fun RecipeDetailScreen(
 
                     if (recipe.tags.isNotEmpty()) {
                         Spacer(modifier = Modifier.height(10.dp))
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.horizontalScroll(rememberScrollState())
+                        ) {
                             recipe.tags.forEach { tag ->
                                 Surface(
                                     color = MaterialTheme.colorScheme.surfaceVariant,
@@ -501,16 +512,17 @@ fun RecipeDetailScreen(
                                 )
                             }
 
+                            val toggleNotesAction = {
+                                if (isEditingNotes) {
+                                    onSaveNotes()
+                                    isEditingNotes = false
+                                } else {
+                                    isEditingNotes = true
+                                }
+                            }
                             IconButton(
-                                onClick = {
-                                    if (isEditingNotes) {
-                                        onSaveNotes()
-                                        isEditingNotes = false
-                                    } else {
-                                        isEditingNotes = true
-                                    }
-                                },
-                                modifier = Modifier.tvFocusable("btn_edit_notes_toggle", shape = CircleShape)
+                                onClick = toggleNotesAction,
+                                modifier = Modifier.tvFocusable("btn_edit_notes_toggle", shape = CircleShape, onClick = toggleNotesAction)
                             ) {
                                 Icon(
                                     imageVector = if (isEditingNotes) Icons.Default.Check else Icons.Default.EditNote,
@@ -537,11 +549,12 @@ fun RecipeDetailScreen(
                                 shape = RoundedCornerShape(12.dp)
                             )
                             Spacer(modifier = Modifier.height(10.dp))
+                            val saveNotesAction = {
+                                onSaveNotes()
+                                isEditingNotes = false
+                            }
                             Button(
-                                onClick = {
-                                    onSaveNotes()
-                                    isEditingNotes = false
-                                },
+                                onClick = saveNotesAction,
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = MaterialTheme.colorScheme.primary,
                                     contentColor = MaterialTheme.colorScheme.onPrimary
@@ -549,9 +562,13 @@ fun RecipeDetailScreen(
                                 shape = RoundedCornerShape(10.dp),
                                 modifier = Modifier
                                     .align(Alignment.End)
-                                    .tvFocusable("btn_save_notes")
+                                    .tvFocusable("btn_save_notes", shape = RoundedCornerShape(10.dp), onClick = saveNotesAction)
                             ) {
-                                Text(stringResource(R.string.btn_save_notes))
+                                Text(
+                                    text = stringResource(R.string.btn_save_notes),
+                                    maxLines = 1,
+                                    softWrap = false
+                                )
                             }
                         } else {
                             Spacer(modifier = Modifier.height(6.dp))
