@@ -58,20 +58,20 @@ fun StepTimerComponent(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    var totalSeconds by remember(initialSeconds) { mutableIntStateOf(if (initialSeconds > 0) initialSeconds else 300) }
-    var remainingSeconds by remember(initialSeconds) { mutableIntStateOf(totalSeconds) }
-    var isRunning by remember { mutableStateOf(false) }
-    var isFinished by remember { mutableStateOf(false) }
+    var totalSeconds by remember(initialSeconds, stepTitle) { mutableIntStateOf(if (initialSeconds > 0) initialSeconds else 300) }
+    var remainingSeconds by remember(initialSeconds, stepTitle) { mutableIntStateOf(totalSeconds) }
+    var isRunning by remember(initialSeconds, stepTitle) { mutableStateOf(false) }
+    var isFinished by remember(initialSeconds, stepTitle) { mutableStateOf(false) }
 
-    LaunchedEffect(isRunning, remainingSeconds) {
-        if (isRunning && remainingSeconds > 0) {
-            delay(1000L)
-            remainingSeconds -= 1
-            if (remainingSeconds == 0) {
-                isRunning = false
-                isFinished = true
-                triggerHaptic(context)
+    LaunchedEffect(isRunning) {
+        if (isRunning) {
+            while (remainingSeconds > 0) {
+                delay(1000L)
+                remainingSeconds -= 1
             }
+            isRunning = false
+            isFinished = true
+            triggerHaptic(context)
         }
     }
 
@@ -252,14 +252,17 @@ fun StepTimerComponent(
     }
 }
 
+@Suppress("DEPRECATION")
 private fun triggerHaptic(context: Context) {
     try {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vibratorManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager
             val vibrator = vibratorManager?.defaultVibrator
             vibrator?.vibrate(VibrationEffect.createWaveform(longArrayOf(0, 200, 100, 200), -1))
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+            vibrator?.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE))
         } else {
-            @Suppress("DEPRECATION")
             val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
             vibrator?.vibrate(300)
         }

@@ -87,7 +87,7 @@ fun SearchScreen(
                 if (searchQuery.isNotBlank()) {
                     IconButton(
                         onClick = { onQueryChange("") },
-                        modifier = Modifier.tvFocusable("btn_clear_search", shape = CircleShape)
+                        modifier = Modifier.tvFocusable("btn_clear_search", shape = CircleShape, onClick = { onQueryChange("") })
                     ) {
                         Icon(
                             imageVector = Icons.Default.Clear,
@@ -139,7 +139,7 @@ fun SearchScreen(
                         labelColor = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                     ),
                     border = if (isSelected) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-                    modifier = Modifier.tvFocusable("chip_suggest_$tag", shape = RoundedCornerShape(12.dp))
+                    modifier = Modifier.tvFocusable("chip_suggest_$tag", shape = RoundedCornerShape(12.dp), onClick = { onQueryChange(tag) })
                 )
             }
         }

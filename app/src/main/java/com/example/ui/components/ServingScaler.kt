@@ -68,7 +68,7 @@ fun ServingScaler(
                     .size(36.dp)
                     .clip(CircleShape)
                     .background(if (currentServings > 1) MaterialTheme.colorScheme.surface else Color.Transparent)
-                    .tvFocusable("btn_decrease_servings", shape = CircleShape, onClick = if (currentServings > 1) decreaseAction else null)
+                    .tvFocusable("btn_decrease_servings", shape = CircleShape, onClick = decreaseAction)
             ) {
                 Icon(
                     imageVector = Icons.Default.Remove,
@@ -94,7 +94,7 @@ fun ServingScaler(
                     .size(36.dp)
                     .clip(CircleShape)
                     .background(if (currentServings < 16) MaterialTheme.colorScheme.surface else Color.Transparent)
-                    .tvFocusable("btn_increase_servings", shape = CircleShape, onClick = if (currentServings < 16) increaseAction else null)
+                    .tvFocusable("btn_increase_servings", shape = CircleShape, onClick = increaseAction)
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,

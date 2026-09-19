@@ -16,14 +16,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -243,7 +243,7 @@ fun MainApp(viewModel: RecipeViewModel) {
                         onClick = { currentDestination = AppDestination.COOKBOOK },
                         icon = {
                             Icon(
-                                imageVector = if (currentDestination == AppDestination.COOKBOOK) Icons.Filled.MenuBook else Icons.Outlined.MenuBook,
+                                imageVector = if (currentDestination == AppDestination.COOKBOOK) Icons.AutoMirrored.Filled.MenuBook else Icons.AutoMirrored.Outlined.MenuBook,
                                 contentDescription = stringResource(R.string.nav_cookbook)
                             )
                         },
@@ -431,7 +431,7 @@ fun MainApp(viewModel: RecipeViewModel) {
                             onClick = { currentDestination = AppDestination.COOKBOOK },
                             icon = {
                                 Icon(
-                                    imageVector = if (currentDestination == AppDestination.COOKBOOK) Icons.Filled.MenuBook else Icons.Outlined.MenuBook,
+                                    imageVector = if (currentDestination == AppDestination.COOKBOOK) Icons.AutoMirrored.Filled.MenuBook else Icons.AutoMirrored.Outlined.MenuBook,
                                     contentDescription = stringResource(R.string.nav_cookbook)
                                 )
                             },

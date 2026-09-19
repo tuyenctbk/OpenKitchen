@@ -124,15 +124,13 @@ fun RecipeDetailScreen(
                 },
                 actions = {
                     if (!recipe.youtubeUrl.isNullOrBlank()) {
+                        val openVideoAction = {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(recipe.youtubeUrl))
+                            context.startActivity(intent)
+                        }
                         IconButton(
-                            onClick = {
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(recipe.youtubeUrl))
-                                context.startActivity(intent)
-                            },
-                            modifier = Modifier.tvFocusable("btn_youtube_video", shape = CircleShape, onClick = {
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(recipe.youtubeUrl))
-                                context.startActivity(intent)
-                            })
+                            onClick = openVideoAction,
+                            modifier = Modifier.tvFocusable("btn_youtube_video", shape = CircleShape, onClick = openVideoAction)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.PlayCircleFilled,

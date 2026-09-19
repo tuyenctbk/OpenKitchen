@@ -190,7 +190,10 @@ fun CategoryFilterScreen(
             },
             trailingIcon = {
                 if (searchQuery.isNotEmpty()) {
-                    IconButton(onClick = { onSearchQueryChanged("") }) {
+                    IconButton(
+                        onClick = { onSearchQueryChanged("") },
+                        modifier = Modifier.tvFocusable("btn_filter_clear_search", shape = CircleShape, onClick = { onSearchQueryChanged("") })
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Clear,
                             contentDescription = stringResource(R.string.clear_content_description),

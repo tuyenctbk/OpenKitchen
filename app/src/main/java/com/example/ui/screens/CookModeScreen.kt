@@ -29,9 +29,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
 import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.FormatListBulleted
 import androidx.compose.material.icons.filled.ScreenLockPortrait
 import androidx.compose.material.icons.filled.StayCurrentPortrait
 import androidx.compose.material3.Button
@@ -142,7 +142,7 @@ fun CookModeScreen(
                         modifier = Modifier.tvFocusable("btn_cook_ingredients", shape = CircleShape, onClick = toggleIngredientsAction)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.FormatListBulleted,
+                            imageVector = Icons.AutoMirrored.Filled.FormatListBulleted,
                             contentDescription = stringResource(R.string.view_ingredients_desc),
                             tint = MaterialTheme.colorScheme.primary
                         )
@@ -192,7 +192,7 @@ fun CookModeScreen(
                         shape = RoundedCornerShape(14.dp),
                         modifier = Modifier
                             .height(52.dp)
-                            .tvFocusable("btn_cook_prev_step", shape = RoundedCornerShape(14.dp), onClick = if (currentStepIndex > 0) onPrevStep else null)
+                            .tvFocusable("btn_cook_prev_step", shape = RoundedCornerShape(14.dp), onClick = onPrevStep)
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,

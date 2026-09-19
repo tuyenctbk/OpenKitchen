@@ -73,17 +73,9 @@ fun Modifier.tvFocusable(
     val context = LocalContext.current
     val isTv = LocalIsTvDevice.current || context.isTvDevice()
 
-    // For Mobile & Tablet: strictly omit focused indicator rectangle / border / scale effect
+    // For Mobile & Tablet: strictly omit focused indicator rectangle / border / scale effect and extra clickable
     if (!isTv) {
-        return this
-            .testTag(tag)
-            .then(
-                if (onClick != null) {
-                    Modifier.clickable(onClick = onClick)
-                } else {
-                    Modifier
-                }
-            )
+        return this.testTag(tag)
     }
 
     // Android TV: D-Pad navigable with illuminated focus border & scale bounce
@@ -146,8 +138,12 @@ fun Modifier.tvFocusable(
             if (keyEvent.type == KeyEventType.KeyUp &&
                 (keyEvent.key == Key.DirectionCenter || keyEvent.key == Key.Enter || keyEvent.key == Key.NumPadEnter)
             ) {
-                onClick?.invoke()
-                true
+                if (onClick != null) {
+                    onClick.invoke()
+                    true
+                } else {
+                    false
+                }
             } else {
                 false
             }

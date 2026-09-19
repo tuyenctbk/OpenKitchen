@@ -65,6 +65,7 @@ fun RecipeCard(
     var isFocused by remember { mutableStateOf(false) }
 
     Card(
+        onClick = onClick,
         modifier = modifier
             .width(cardWidth)
             .height(cardHeight)

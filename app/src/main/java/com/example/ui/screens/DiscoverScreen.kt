@@ -397,7 +397,7 @@ fun FeaturedHeroBanner(
         modifier = modifier
             .fillMaxWidth()
             .height(300.dp)
-            .tvFocusable("hero_spotlight_card", shape = RoundedCornerShape(32.dp), onClick = onViewRecipe),
+            .clickable(onClick = onViewRecipe),
         shape = RoundedCornerShape(32.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFF1D1B20)),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
@@ -524,6 +524,32 @@ fun FeaturedHeroBanner(
 
                 // Action Buttons
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Button(
+                        onClick = onViewRecipe,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        ),
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier
+                            .defaultMinSize(minHeight = 44.dp)
+                            .tvFocusable("btn_hero_view_recipe", shape = RoundedCornerShape(12.dp), onClick = onViewRecipe)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Restaurant,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = stringResource(R.string.btn_view_details),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 13.sp,
+                            maxLines = 1,
+                            softWrap = false
+                        )
+                    }
+
                     Button(
                         onClick = onStartCooking,
                         colors = ButtonDefaults.buttonColors(
