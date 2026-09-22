@@ -1,5 +1,11 @@
 package com.example.ui.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -78,12 +84,24 @@ fun ServingScaler(
                 )
             }
 
-            Text(
-                text = "$currentServings",
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.testTag("text_current_servings")
-            )
+            AnimatedContent(
+                targetState = currentServings,
+                transitionSpec = {
+                    if (targetState > initialState) {
+                        (slideInVertically { it } + fadeIn()).togetherWith(slideOutVertically { -it } + fadeOut())
+                    } else {
+                        (slideInVertically { -it } + fadeIn()).togetherWith(slideOutVertically { it } + fadeOut())
+                    }
+                },
+                label = "servingsAnim"
+            ) { servings: Int ->
+                Text(
+                    text = "$servings",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.testTag("text_current_servings")
+                )
+            }
 
             // Increment Button
             val increaseAction = { if (currentServings < 16) onServingsChange(currentServings + 1) }
@@ -106,3 +124,4 @@ fun ServingScaler(
         }
     }
 }
+

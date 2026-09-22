@@ -1,6 +1,15 @@
 package com.example.ui
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -49,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.R
+import com.example.data.model.Recipe
 import com.example.ui.components.tvFocusable
 import com.example.ui.screens.CategoryFilterScreen
 import com.example.ui.screens.CookModeScreen
@@ -63,6 +73,12 @@ enum class AppDestination {
     FILTER,
     SEARCH,
     COOKBOOK
+}
+
+private enum class AppScreenState {
+    MAIN_TABS,
+    RECIPE_DETAIL,
+    COOK_MODE
 }
 
 @Composable
@@ -83,44 +99,103 @@ fun MainApp(viewModel: RecipeViewModel) {
         }
     }
 
-    if (isInCookMode && state.activeRecipe != null) {
-        CookModeScreen(
-            recipe = state.activeRecipe!!,
-            currentStepIndex = state.activeCookStepIndex,
-            keepScreenOn = state.keepScreenOn,
-            servingMultiplier = state.activeServings.toFloat() / state.activeRecipe!!.baseServings.coerceAtLeast(1).toFloat(),
-            onStepChange = { viewModel.setCookStep(it) },
-            onNextStep = { viewModel.nextCookStep() },
-            onPrevStep = { viewModel.prevCookStep() },
-            onToggleKeepScreenOn = { viewModel.toggleKeepScreenOn() },
-            onExitCookMode = { isInCookMode = false }
-        )
-        return
+    val screenState = when {
+        isInCookMode && state.activeRecipe != null -> AppScreenState.COOK_MODE
+        state.activeRecipe != null -> AppScreenState.RECIPE_DETAIL
+        else -> AppScreenState.MAIN_TABS
     }
 
-    if (state.activeRecipe != null) {
-        val recipe = state.activeRecipe!!
-        RecipeDetailScreen(
-            recipe = recipe,
-            currentServings = state.activeServings,
-            isBookmarked = savedRecipeIds.contains(recipe.id),
-            userNotesDraft = state.userNotesDraft,
-            onServingsChange = { viewModel.updateServings(it) },
-            onBookmarkToggle = { viewModel.toggleBookmark(recipe) },
-            onStartCooking = { isInCookMode = true },
-            onNotesDraftChange = { viewModel.updateNotesDraft(it) },
-            onSaveNotes = { viewModel.saveNotes() },
-            onBack = { viewModel.clearActiveRecipe() }
-        )
-        return
+    AnimatedContent(
+        targetState = screenState,
+        transitionSpec = {
+            when {
+                targetState == AppScreenState.COOK_MODE -> {
+                    (slideInVertically(animationSpec = tween(350)) { it / 2 } + fadeIn(animationSpec = tween(350)))
+                        .togetherWith(fadeOut(animationSpec = tween(250)))
+                }
+                initialState == AppScreenState.COOK_MODE -> {
+                    fadeIn(animationSpec = tween(250))
+                        .togetherWith(slideOutVertically(animationSpec = tween(300)) { it / 2 } + fadeOut(animationSpec = tween(300)))
+                }
+                targetState == AppScreenState.RECIPE_DETAIL -> {
+                    (slideInHorizontally(animationSpec = tween(300)) { it / 3 } + fadeIn(animationSpec = tween(300)))
+                        .togetherWith(fadeOut(animationSpec = tween(200)))
+                }
+                else -> {
+                    fadeIn(animationSpec = tween(250))
+                        .togetherWith(slideOutHorizontally(animationSpec = tween(250)) { it / 3 } + fadeOut(animationSpec = tween(250)))
+                }
+            }
+        },
+        label = "mainScreenTransition"
+    ) { activeScreen ->
+        when (activeScreen) {
+            AppScreenState.COOK_MODE -> {
+                val recipe = state.activeRecipe
+                if (recipe != null) {
+                    CookModeScreen(
+                        recipe = recipe,
+                        currentStepIndex = state.activeCookStepIndex,
+                        keepScreenOn = state.keepScreenOn,
+                        servingMultiplier = state.activeServings.toFloat() / recipe.baseServings.coerceAtLeast(1).toFloat(),
+                        onStepChange = { viewModel.setCookStep(it) },
+                        onNextStep = { viewModel.nextCookStep() },
+                        onPrevStep = { viewModel.prevCookStep() },
+                        onToggleKeepScreenOn = { viewModel.toggleKeepScreenOn() },
+                        onExitCookMode = { isInCookMode = false }
+                    )
+                }
+            }
+            AppScreenState.RECIPE_DETAIL -> {
+                val recipe = state.activeRecipe
+                if (recipe != null) {
+                    RecipeDetailScreen(
+                        recipe = recipe,
+                        currentServings = state.activeServings,
+                        isBookmarked = savedRecipeIds.contains(recipe.id),
+                        userNotesDraft = state.userNotesDraft,
+                        onServingsChange = { viewModel.updateServings(it) },
+                        onBookmarkToggle = { viewModel.toggleBookmark(recipe) },
+                        onStartCooking = { isInCookMode = true },
+                        onNotesDraftChange = { viewModel.updateNotesDraft(it) },
+                        onSaveNotes = { viewModel.saveNotes() },
+                        onBack = { viewModel.clearActiveRecipe() }
+                    )
+                }
+            }
+            AppScreenState.MAIN_TABS -> {
+                MainTabsContainer(
+                    currentDestination = currentDestination,
+                    onDestinationChange = { currentDestination = it },
+                    state = state,
+                    savedRecipes = savedRecipes,
+                    savedRecipeIds = savedRecipeIds,
+                    viewModel = viewModel,
+                    onStartCooking = {
+                        viewModel.openRecipe(it)
+                        isInCookMode = true
+                    }
+                )
+            }
+        }
     }
+}
 
-    // Adaptive Container for TV / Tablet / Mobile
+@Composable
+private fun MainTabsContainer(
+    currentDestination: AppDestination,
+    onDestinationChange: (AppDestination) -> Unit,
+    state: com.example.ui.viewmodel.RecipeUiState,
+    savedRecipes: List<Recipe>,
+    savedRecipeIds: Set<String>,
+    viewModel: RecipeViewModel,
+    onStartCooking: (Recipe) -> Unit
+) {
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-        val isWideScreen = maxWidth >= 600.dp // Android TV and tablets
+        val isWideScreen = maxWidth >= 600.dp
 
         if (isWideScreen) {
-            // TV / Large Tablet Layout with Side Navigation Rail in Professional Polish theme
+            // TV / Large Tablet Layout with Side Navigation Rail
             Row(modifier = Modifier.fillMaxSize()) {
                 NavigationRail(
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -159,7 +234,7 @@ fun MainApp(viewModel: RecipeViewModel) {
                 ) {
                     NavigationRailItem(
                         selected = currentDestination == AppDestination.DISCOVER,
-                        onClick = { currentDestination = AppDestination.DISCOVER },
+                        onClick = { onDestinationChange(AppDestination.DISCOVER) },
                         icon = {
                             Icon(
                                 imageVector = if (currentDestination == AppDestination.DISCOVER) Icons.Filled.Home else Icons.Outlined.Home,
@@ -178,7 +253,7 @@ fun MainApp(viewModel: RecipeViewModel) {
                             tag = "rail_nav_discover",
                             shape = RoundedCornerShape(12.dp),
                             unfocusedBorderWidth = 0.dp,
-                            onClick = { currentDestination = AppDestination.DISCOVER }
+                            onClick = { onDestinationChange(AppDestination.DISCOVER) }
                         )
                     )
 
@@ -186,7 +261,7 @@ fun MainApp(viewModel: RecipeViewModel) {
 
                     NavigationRailItem(
                         selected = currentDestination == AppDestination.FILTER,
-                        onClick = { currentDestination = AppDestination.FILTER },
+                        onClick = { onDestinationChange(AppDestination.FILTER) },
                         icon = {
                             Icon(
                                 imageVector = if (currentDestination == AppDestination.FILTER) Icons.Filled.FilterAlt else Icons.Outlined.FilterAlt,
@@ -205,7 +280,7 @@ fun MainApp(viewModel: RecipeViewModel) {
                             tag = "rail_nav_filter",
                             shape = RoundedCornerShape(12.dp),
                             unfocusedBorderWidth = 0.dp,
-                            onClick = { currentDestination = AppDestination.FILTER }
+                            onClick = { onDestinationChange(AppDestination.FILTER) }
                         )
                     )
 
@@ -213,7 +288,7 @@ fun MainApp(viewModel: RecipeViewModel) {
 
                     NavigationRailItem(
                         selected = currentDestination == AppDestination.SEARCH,
-                        onClick = { currentDestination = AppDestination.SEARCH },
+                        onClick = { onDestinationChange(AppDestination.SEARCH) },
                         icon = {
                             Icon(
                                 imageVector = if (currentDestination == AppDestination.SEARCH) Icons.Filled.Search else Icons.Outlined.Search,
@@ -232,7 +307,7 @@ fun MainApp(viewModel: RecipeViewModel) {
                             tag = "rail_nav_search",
                             shape = RoundedCornerShape(12.dp),
                             unfocusedBorderWidth = 0.dp,
-                            onClick = { currentDestination = AppDestination.SEARCH }
+                            onClick = { onDestinationChange(AppDestination.SEARCH) }
                         )
                     )
 
@@ -240,7 +315,7 @@ fun MainApp(viewModel: RecipeViewModel) {
 
                     NavigationRailItem(
                         selected = currentDestination == AppDestination.COOKBOOK,
-                        onClick = { currentDestination = AppDestination.COOKBOOK },
+                        onClick = { onDestinationChange(AppDestination.COOKBOOK) },
                         icon = {
                             Icon(
                                 imageVector = if (currentDestination == AppDestination.COOKBOOK) Icons.AutoMirrored.Filled.MenuBook else Icons.AutoMirrored.Outlined.MenuBook,
@@ -259,83 +334,31 @@ fun MainApp(viewModel: RecipeViewModel) {
                             tag = "rail_nav_cookbook",
                             shape = RoundedCornerShape(12.dp),
                             unfocusedBorderWidth = 0.dp,
-                            onClick = { currentDestination = AppDestination.COOKBOOK }
+                            onClick = { onDestinationChange(AppDestination.COOKBOOK) }
                         )
                     )
                 }
 
-                // Main screen area
+                // Main screen area with animated crossfade
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
                         .background(MaterialTheme.colorScheme.background)
                 ) {
-                    when (currentDestination) {
-                        AppDestination.DISCOVER -> {
-                            DiscoverScreen(
-                                state = state,
-                                savedRecipeIds = savedRecipeIds,
-                                onRecipeClick = { viewModel.openRecipe(it) },
-                                onStartCooking = {
-                                    viewModel.openRecipe(it)
-                                    isInCookMode = true
-                                },
-                                onCategorySelect = { viewModel.selectCategory(it) },
-                                onOpenFilterScreen = {
-                                    viewModel.setFilterCategory(state.selectedCategory)
-                                    currentDestination = AppDestination.FILTER
-                                },
-                                onBookmarkToggle = { viewModel.toggleBookmark(it) },
-                                onSurpriseMe = { viewModel.loadRandomRecipe() },
-                                onSearchClick = { currentDestination = AppDestination.SEARCH }
-                            )
-                        }
-                        AppDestination.FILTER -> {
-                            CategoryFilterScreen(
-                                selectedCategory = state.filterCategory,
-                                selectedMaxTime = state.filterMaxPrepMinutes,
-                                selectedDiet = state.filterDiet,
-                                searchQuery = state.filterSearchQuery,
-                                recipes = state.filterRecipes,
-                                savedIds = savedRecipeIds,
-                                isLoading = state.isFilterLoading,
-                                onCategorySelected = { viewModel.setFilterCategory(it) },
-                                onMaxTimeSelected = { viewModel.setFilterMaxPrepMinutes(it) },
-                                onDietSelected = { viewModel.setFilterDiet(it) },
-                                onSearchQueryChanged = { viewModel.setFilterSearchQuery(it) },
-                                onRecipeClick = { viewModel.openRecipe(it) },
-                                onBookmarkToggle = { viewModel.toggleBookmark(it) }
-                            )
-                        }
-                        AppDestination.SEARCH -> {
-                            SearchScreen(
-                                searchQuery = state.searchQuery,
-                                searchResults = state.searchResults,
-                                isSearching = state.isSearching,
-                                savedIds = savedRecipeIds,
-                                onQueryChange = { viewModel.onSearchQueryChanged(it) },
-                                onRecipeClick = { viewModel.openRecipe(it) },
-                                onBookmarkToggle = { viewModel.toggleBookmark(it) }
-                            )
-                        }
-                        AppDestination.COOKBOOK -> {
-                            CookbookScreen(
-                                savedRecipes = savedRecipes,
-                                onRecipeClick = { viewModel.openRecipe(it) },
-                                onStartCooking = {
-                                    viewModel.openRecipe(it)
-                                    isInCookMode = true
-                                },
-                                onRemoveRecipe = { viewModel.toggleBookmark(it) },
-                                onExploreClick = { currentDestination = AppDestination.DISCOVER }
-                            )
-                        }
-                    }
+                    AnimatedDestinationContent(
+                        destination = currentDestination,
+                        state = state,
+                        savedRecipes = savedRecipes,
+                        savedRecipeIds = savedRecipeIds,
+                        viewModel = viewModel,
+                        onDestinationChange = onDestinationChange,
+                        onStartCooking = onStartCooking
+                    )
                 }
             }
         } else {
-            // Mobile Layout with Bottom Navigation Bar matching Design HTML
+            // Mobile Layout with Bottom Navigation Bar
             Scaffold(
                 containerColor = MaterialTheme.colorScheme.background,
                 bottomBar = {
@@ -350,7 +373,7 @@ fun MainApp(viewModel: RecipeViewModel) {
                     ) {
                         NavigationBarItem(
                             selected = currentDestination == AppDestination.DISCOVER,
-                            onClick = { currentDestination = AppDestination.DISCOVER },
+                            onClick = { onDestinationChange(AppDestination.DISCOVER) },
                             icon = {
                                 Icon(
                                     imageVector = if (currentDestination == AppDestination.DISCOVER) Icons.Filled.Home else Icons.Outlined.Home,
@@ -376,7 +399,7 @@ fun MainApp(viewModel: RecipeViewModel) {
 
                         NavigationBarItem(
                             selected = currentDestination == AppDestination.FILTER,
-                            onClick = { currentDestination = AppDestination.FILTER },
+                            onClick = { onDestinationChange(AppDestination.FILTER) },
                             icon = {
                                 Icon(
                                     imageVector = if (currentDestination == AppDestination.FILTER) Icons.Filled.FilterAlt else Icons.Outlined.FilterAlt,
@@ -402,7 +425,7 @@ fun MainApp(viewModel: RecipeViewModel) {
 
                         NavigationBarItem(
                             selected = currentDestination == AppDestination.SEARCH,
-                            onClick = { currentDestination = AppDestination.SEARCH },
+                            onClick = { onDestinationChange(AppDestination.SEARCH) },
                             icon = {
                                 Icon(
                                     imageVector = if (currentDestination == AppDestination.SEARCH) Icons.Filled.Search else Icons.Outlined.Search,
@@ -428,7 +451,7 @@ fun MainApp(viewModel: RecipeViewModel) {
 
                         NavigationBarItem(
                             selected = currentDestination == AppDestination.COOKBOOK,
-                            onClick = { currentDestination = AppDestination.COOKBOOK },
+                            onClick = { onDestinationChange(AppDestination.COOKBOOK) },
                             icon = {
                                 Icon(
                                     imageVector = if (currentDestination == AppDestination.COOKBOOK) Icons.AutoMirrored.Filled.MenuBook else Icons.AutoMirrored.Outlined.MenuBook,
@@ -459,69 +482,93 @@ fun MainApp(viewModel: RecipeViewModel) {
                         .fillMaxSize()
                         .padding(innerPadding)
                 ) {
-                    when (currentDestination) {
-                        AppDestination.DISCOVER -> {
-                            DiscoverScreen(
-                                state = state,
-                                savedRecipeIds = savedRecipeIds,
-                                onRecipeClick = { viewModel.openRecipe(it) },
-                                onStartCooking = {
-                                    viewModel.openRecipe(it)
-                                    isInCookMode = true
-                                },
-                                onCategorySelect = { viewModel.selectCategory(it) },
-                                onOpenFilterScreen = {
-                                    viewModel.setFilterCategory(state.selectedCategory)
-                                    currentDestination = AppDestination.FILTER
-                                },
-                                onBookmarkToggle = { viewModel.toggleBookmark(it) },
-                                onSurpriseMe = { viewModel.loadRandomRecipe() },
-                                onSearchClick = { currentDestination = AppDestination.SEARCH }
-                            )
-                        }
-                        AppDestination.FILTER -> {
-                            CategoryFilterScreen(
-                                selectedCategory = state.filterCategory,
-                                selectedMaxTime = state.filterMaxPrepMinutes,
-                                selectedDiet = state.filterDiet,
-                                searchQuery = state.filterSearchQuery,
-                                recipes = state.filterRecipes,
-                                savedIds = savedRecipeIds,
-                                isLoading = state.isFilterLoading,
-                                onCategorySelected = { viewModel.setFilterCategory(it) },
-                                onMaxTimeSelected = { viewModel.setFilterMaxPrepMinutes(it) },
-                                onDietSelected = { viewModel.setFilterDiet(it) },
-                                onSearchQueryChanged = { viewModel.setFilterSearchQuery(it) },
-                                onRecipeClick = { viewModel.openRecipe(it) },
-                                onBookmarkToggle = { viewModel.toggleBookmark(it) }
-                            )
-                        }
-                        AppDestination.SEARCH -> {
-                            SearchScreen(
-                                searchQuery = state.searchQuery,
-                                searchResults = state.searchResults,
-                                isSearching = state.isSearching,
-                                savedIds = savedRecipeIds,
-                                onQueryChange = { viewModel.onSearchQueryChanged(it) },
-                                onRecipeClick = { viewModel.openRecipe(it) },
-                                onBookmarkToggle = { viewModel.toggleBookmark(it) }
-                            )
-                        }
-                        AppDestination.COOKBOOK -> {
-                            CookbookScreen(
-                                savedRecipes = savedRecipes,
-                                onRecipeClick = { viewModel.openRecipe(it) },
-                                onStartCooking = {
-                                    viewModel.openRecipe(it)
-                                    isInCookMode = true
-                                },
-                                onRemoveRecipe = { viewModel.toggleBookmark(it) },
-                                onExploreClick = { currentDestination = AppDestination.DISCOVER }
-                            )
-                        }
-                    }
+                    AnimatedDestinationContent(
+                        destination = currentDestination,
+                        state = state,
+                        savedRecipes = savedRecipes,
+                        savedRecipeIds = savedRecipeIds,
+                        viewModel = viewModel,
+                        onDestinationChange = onDestinationChange,
+                        onStartCooking = onStartCooking
+                    )
                 }
             }
         }
     }
 }
+
+@Composable
+private fun AnimatedDestinationContent(
+    destination: AppDestination,
+    state: com.example.ui.viewmodel.RecipeUiState,
+    savedRecipes: List<Recipe>,
+    savedRecipeIds: Set<String>,
+    viewModel: RecipeViewModel,
+    onDestinationChange: (AppDestination) -> Unit,
+    onStartCooking: (Recipe) -> Unit
+) {
+    AnimatedContent(
+        targetState = destination,
+        transitionSpec = {
+            fadeIn(animationSpec = tween(220)) togetherWith fadeOut(animationSpec = tween(180))
+        },
+        label = "destinationTransition"
+    ) { dest ->
+        when (dest) {
+            AppDestination.DISCOVER -> {
+                DiscoverScreen(
+                    state = state,
+                    savedRecipeIds = savedRecipeIds,
+                    onRecipeClick = { viewModel.openRecipe(it) },
+                    onStartCooking = onStartCooking,
+                    onCategorySelect = { viewModel.selectCategory(it) },
+                    onOpenFilterScreen = {
+                        viewModel.setFilterCategory(state.selectedCategory)
+                        onDestinationChange(AppDestination.FILTER)
+                    },
+                    onBookmarkToggle = { viewModel.toggleBookmark(it) },
+                    onSurpriseMe = { viewModel.loadRandomRecipe() },
+                    onSearchClick = { onDestinationChange(AppDestination.SEARCH) }
+                )
+            }
+            AppDestination.FILTER -> {
+                CategoryFilterScreen(
+                    selectedCategory = state.filterCategory,
+                    selectedMaxTime = state.filterMaxPrepMinutes,
+                    selectedDiet = state.filterDiet,
+                    searchQuery = state.filterSearchQuery,
+                    recipes = state.filterRecipes,
+                    savedIds = savedRecipeIds,
+                    isLoading = state.isFilterLoading,
+                    onCategorySelected = { viewModel.setFilterCategory(it) },
+                    onMaxTimeSelected = { viewModel.setFilterMaxPrepMinutes(it) },
+                    onDietSelected = { viewModel.setFilterDiet(it) },
+                    onSearchQueryChanged = { viewModel.setFilterSearchQuery(it) },
+                    onRecipeClick = { viewModel.openRecipe(it) },
+                    onBookmarkToggle = { viewModel.toggleBookmark(it) }
+                )
+            }
+            AppDestination.SEARCH -> {
+                SearchScreen(
+                    searchQuery = state.searchQuery,
+                    searchResults = state.searchResults,
+                    isSearching = state.isSearching,
+                    savedIds = savedRecipeIds,
+                    onQueryChange = { viewModel.onSearchQueryChanged(it) },
+                    onRecipeClick = { viewModel.openRecipe(it) },
+                    onBookmarkToggle = { viewModel.toggleBookmark(it) }
+                )
+            }
+            AppDestination.COOKBOOK -> {
+                CookbookScreen(
+                    savedRecipes = savedRecipes,
+                    onRecipeClick = { viewModel.openRecipe(it) },
+                    onStartCooking = onStartCooking,
+                    onRemoveRecipe = { viewModel.toggleBookmark(it) },
+                    onExploreClick = { onDestinationChange(AppDestination.DISCOVER) }
+                )
+            }
+        }
+    }
+}
+

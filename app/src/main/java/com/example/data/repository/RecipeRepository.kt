@@ -9,6 +9,9 @@ import com.example.data.model.Recipe
 import com.example.data.remote.SpoonacularApi
 import com.example.data.remote.TheMealDbApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -72,16 +75,23 @@ class RecipeRepository(
 
     suspend fun getFeaturedRecipes(): List<Recipe> = withContext(Dispatchers.IO) {
         try {
-            // Fetch seafood or pasta recipes to supplement featured list
+            // Fetch seafood or pasta recipes to supplement featured list concurrently
             val response = api.filterByCategory("Seafood")
-            val remoteList = response.meals?.take(6)?.mapNotNull { meal ->
-                try {
-                    val full = api.lookupById(meal.idMeal).meals?.firstOrNull()
-                    full?.let { Recipe.fromDto(it) }
-                } catch (e: Exception) {
-                    null
+            val mealList = response.meals?.take(6) ?: emptyList()
+            val remoteList = if (mealList.isNotEmpty()) {
+                coroutineScope {
+                    mealList.map { meal ->
+                        async {
+                            try {
+                                val full = api.lookupById(meal.idMeal).meals?.firstOrNull()
+                                full?.let { Recipe.fromDto(it) }
+                            } catch (e: Exception) {
+                                null
+                            }
+                        }
+                    }.awaitAll().filterNotNull()
                 }
-            } ?: emptyList()
+            } else emptyList()
 
             if (remoteList.isNotEmpty()) {
                 (CuratedRecipes.featuredRecipes + remoteList).distinctBy { it.id }
@@ -123,21 +133,36 @@ class RecipeRepository(
             if (category.equals("Vegan", ignoreCase = true)) {
                 val curatedVegan = CuratedRecipes.featuredRecipes.filter { it.category.equals("Vegan", true) }
                 val apiResponse = try { api.filterByCategory("Vegan") } catch (e: Exception) { null }
-                val meals = apiResponse?.meals?.take(6)?.mapNotNull { m ->
-                    try { api.lookupById(m.idMeal).meals?.firstOrNull()?.let { Recipe.fromDto(it) } } catch (e: Exception) { null }
-                } ?: emptyList()
-                return@withContext (curatedVegan + meals).distinctBy { it.id }
+                val meals = apiResponse?.meals?.take(6) ?: emptyList()
+                val remoteMeals = if (meals.isNotEmpty()) {
+                    coroutineScope {
+                        meals.map { m ->
+                            async {
+                                try {
+                                    api.lookupById(m.idMeal).meals?.firstOrNull()?.let { Recipe.fromDto(it) }
+                                } catch (e: Exception) {
+                                    null
+                                }
+                            }
+                        }.awaitAll().filterNotNull()
+                    }
+                } else emptyList()
+                return@withContext (curatedVegan + remoteMeals).distinctBy { it.id }
             }
 
             val response = api.filterByCategory(category)
             val meals = response.meals?.take(10) ?: emptyList()
             if (meals.isNotEmpty()) {
-                val fullRecipes = meals.mapNotNull { m ->
-                    try {
-                        api.lookupById(m.idMeal).meals?.firstOrNull()?.let { Recipe.fromDto(it) }
-                    } catch (e: Exception) {
-                        null
-                    }
+                val fullRecipes = coroutineScope {
+                    meals.map { m ->
+                        async {
+                            try {
+                                api.lookupById(m.idMeal).meals?.firstOrNull()?.let { Recipe.fromDto(it) }
+                            } catch (e: Exception) {
+                                null
+                            }
+                        }
+                    }.awaitAll().filterNotNull()
                 }
                 if (fullRecipes.isNotEmpty()) return@withContext fullRecipes
             }
@@ -203,18 +228,32 @@ class RecipeRepository(
                     it.category.equals("Vegan", true) || it.tags.any { t -> t.contains("vegan", true) }
                 }
                 val apiVegan = try {
-                    api.filterByCategory("Vegan").meals?.take(8)?.mapNotNull {
-                        try { api.lookupById(it.idMeal).meals?.firstOrNull()?.let { m -> Recipe.fromDto(m) } } catch (e: Exception) { null }
-                    } ?: emptyList()
+                    val meals = api.filterByCategory("Vegan").meals?.take(8) ?: emptyList()
+                    if (meals.isNotEmpty()) {
+                        coroutineScope {
+                            meals.map { m ->
+                                async {
+                                    try { api.lookupById(m.idMeal).meals?.firstOrNull()?.let { Recipe.fromDto(it) } } catch (e: Exception) { null }
+                                }
+                            }.awaitAll().filterNotNull()
+                        }
+                    } else emptyList()
                 } catch (e: Exception) { emptyList() }
                 (curatedVegan + apiVegan).distinctBy { it.id }
             }
             category.equals("Breakfast", ignoreCase = true) -> {
                 val curatedBfast = CuratedRecipes.featuredRecipes.filter { it.category.equals("Breakfast", true) }
                 val apiBfast = try {
-                    api.filterByCategory("Breakfast").meals?.take(8)?.mapNotNull {
-                        try { api.lookupById(it.idMeal).meals?.firstOrNull()?.let { m -> Recipe.fromDto(m) } } catch (e: Exception) { null }
-                    } ?: emptyList()
+                    val meals = api.filterByCategory("Breakfast").meals?.take(8) ?: emptyList()
+                    if (meals.isNotEmpty()) {
+                        coroutineScope {
+                            meals.map { m ->
+                                async {
+                                    try { api.lookupById(m.idMeal).meals?.firstOrNull()?.let { Recipe.fromDto(it) } } catch (e: Exception) { null }
+                                }
+                            }.awaitAll().filterNotNull()
+                        }
+                    } else emptyList()
                 } catch (e: Exception) { emptyList() }
                 (curatedBfast + apiBfast).distinctBy { it.id }
             }

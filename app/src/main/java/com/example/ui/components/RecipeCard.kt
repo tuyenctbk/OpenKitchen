@@ -1,5 +1,8 @@
 package com.example.ui.components
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -37,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -171,6 +175,14 @@ fun RecipeCard(
                 }
 
                 if (onBookmarkToggle != null) {
+                    val bookmarkScale by androidx.compose.animation.core.animateFloatAsState(
+                        targetValue = if (isBookmarked) 1.25f else 1.0f,
+                        animationSpec = androidx.compose.animation.core.spring(
+                            dampingRatio = androidx.compose.animation.core.Spring.DampingRatioMediumBouncy,
+                            stiffness = androidx.compose.animation.core.Spring.StiffnessLow
+                        ),
+                        label = "bookmarkScale"
+                    )
                     Surface(
                         color = Color(0x991D1B20),
                         shape = CircleShape,
@@ -184,7 +196,9 @@ fun RecipeCard(
                                 imageVector = if (isBookmarked) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
                                 contentDescription = if (isBookmarked) stringResource(R.string.remove_bookmark_desc) else stringResource(R.string.add_to_cookbook_desc),
                                 tint = if (isBookmarked) MaterialTheme.colorScheme.primaryContainer else Color.White,
-                                modifier = Modifier.size(18.dp)
+                                modifier = Modifier
+                                    .size(18.dp)
+                                    .scale(bookmarkScale)
                             )
                         }
                     }
