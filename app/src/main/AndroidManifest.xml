@@ -12,6 +12,15 @@
         android:name="android.hardware.touchscreen"
         android:required="false" />
 
+    <!-- Exclude this app from Android Automotive OS distribution.
+         The app does not implement Automotive OS support (no MediaBrowserService,
+         no automotive app descriptor), so we explicitly declare this hardware
+         feature as not required to prevent Play Store from distributing it to
+         Automotive OS devices and triggering policy violations. -->
+    <uses-feature
+        android:name="android.hardware.type.automotive"
+        android:required="false" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"

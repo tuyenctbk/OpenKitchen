@@ -11,9 +11,39 @@ build/
 *.dex
 *.class
 
-# Java / JVM crash logs
+# Java / JVM crash logs & runtime logs
+*.log
 hs_err_pid*
 replay_pid*
+
+# Scripts & Windows batch files / executables
+*.bat
+*.cmd
+*.ps1
+*.vbs
+*.exe
+*.dll
+
+# Temporary, backup & editor swap files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.swp
+*.swo
+*~
+*.orig
+*.rej
+*.patch
+*.diff
+
+# Compressed archives (prevent accidental commits of large archives)
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
 
 # Local environment & properties (SDK paths, secrets)
 local.properties
@@ -21,6 +51,7 @@ local.properties
 .env
 .env.local
 .env.*.local
+*.local
 
 # Android Studio / IntelliJ IDEA
 .idea/
@@ -44,6 +75,10 @@ cmake-build-*/
 *.key
 *.p12
 *.pem
+*.cer
+*.crt
+*.der
+*.pfx
 common_release_key.jks
 my-upload-key.jks
 debug.keystore
@@ -58,10 +93,15 @@ google-services.json
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+ehthumbs_vista.db
 Thumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
 
-# VS Code
+# VS Code & other editors
 .vscode/
+*.sublime-project
+*.sublime-workspace
 
 # Python / Tooling cache
 __pycache__/

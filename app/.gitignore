@@ -1,1 +1,4 @@
+# Module build artifacts
 /build
+*.apk
+*.aab
