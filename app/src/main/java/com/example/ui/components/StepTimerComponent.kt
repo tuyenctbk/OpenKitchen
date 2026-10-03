@@ -54,14 +54,16 @@ import java.util.Locale
 @Composable
 fun StepTimerComponent(
     initialSeconds: Int = 300,
-    stepTitle: String = "Step Timer",
+    stepTitle: String? = null,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    var totalSeconds by remember(initialSeconds, stepTitle) { mutableIntStateOf(if (initialSeconds > 0) initialSeconds else 300) }
-    var remainingSeconds by remember(initialSeconds, stepTitle) { mutableIntStateOf(totalSeconds) }
-    var isRunning by remember(initialSeconds, stepTitle) { mutableStateOf(false) }
-    var isFinished by remember(initialSeconds, stepTitle) { mutableStateOf(false) }
+    val defaultTitle = stringResource(R.string.step_timer_default)
+    val displayTitle = stepTitle ?: defaultTitle
+    var totalSeconds by remember(initialSeconds, displayTitle) { mutableIntStateOf(if (initialSeconds > 0) initialSeconds else 300) }
+    var remainingSeconds by remember(initialSeconds, displayTitle) { mutableIntStateOf(totalSeconds) }
+    var isRunning by remember(initialSeconds, displayTitle) { mutableStateOf(false) }
+    var isFinished by remember(initialSeconds, displayTitle) { mutableStateOf(false) }
 
     LaunchedEffect(isRunning) {
         if (isRunning) {
@@ -118,7 +120,7 @@ fun StepTimerComponent(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = if (isFinished) stringResource(R.string.timer_complete_title) else stepTitle,
+                        text = if (isFinished) stringResource(R.string.timer_complete_title) else displayTitle,
                         style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.SemiBold),
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -165,7 +167,7 @@ fun StepTimerComponent(
                         modifier = Modifier.tvFocusable("btn_add_1min", shape = RoundedCornerShape(10.dp), onClick = add1mAction)
                     ) {
                         Text(
-                            text = "+1m",
+                            text = stringResource(R.string.timer_add_1m),
                             fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurface,
                             maxLines = 1,
@@ -185,7 +187,7 @@ fun StepTimerComponent(
                         modifier = Modifier.tvFocusable("btn_add_5min", shape = RoundedCornerShape(10.dp), onClick = add5mAction)
                     ) {
                         Text(
-                            text = "+5m",
+                            text = stringResource(R.string.timer_add_5m),
                             fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurface,
                             maxLines = 1,

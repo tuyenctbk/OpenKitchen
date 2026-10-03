@@ -29,7 +29,7 @@ data class SpoonacularRecipeDto(
     fun toRecipe(categoryLabel: String = "Popular"): Recipe {
         val ingredientItems = extendedIngredients?.map {
             val measure = if (!it.original.isNullOrBlank()) it.original else "${it.amount ?: ""} ${it.unit ?: ""}".trim()
-            IngredientItem(name = it.name ?: "Ingredient", measure = measure)
+            IngredientItem(name = it.name.orEmpty(), measure = measure)
         } ?: emptyList()
 
         val stepList = mutableListOf<String>()
@@ -45,7 +45,7 @@ data class SpoonacularRecipeDto(
         } else if (!instructions.isNullOrBlank()) {
             instructions.replace(Regex("<[^>]*>"), "").trim()
         } else {
-            summary?.replace(Regex("<[^>]*>"), "")?.take(400) ?: "Follow standard culinary preparation technique."
+            summary?.replace(Regex("<[^>]*>"), "")?.take(400).orEmpty()
         }
 
         val primaryCategory = when {
@@ -67,9 +67,9 @@ data class SpoonacularRecipeDto(
             id = "sp_$id",
             name = title,
             category = primaryCategory,
-            area = cuisines?.firstOrNull() ?: "Global",
+            area = cuisines?.firstOrNull().orEmpty(),
             instructions = instructionText,
-            thumbnailUrl = image ?: "https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800",
+            thumbnailUrl = image.orEmpty(),
             tags = diets.orEmpty() + dishTypes.orEmpty(),
             youtubeUrl = null,
             sourceUrl = "https://spoonacular.com/recipes/$id",

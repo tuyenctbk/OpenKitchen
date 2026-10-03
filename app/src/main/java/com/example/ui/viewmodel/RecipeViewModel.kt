@@ -223,7 +223,9 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun loadRandomRecipe() {
         viewModelScope.launch {
             val random = repository.getRandomRecipe()
-            openRecipe(random)
+            if (random != null) {
+                openRecipe(random)
+            }
         }
     }
 

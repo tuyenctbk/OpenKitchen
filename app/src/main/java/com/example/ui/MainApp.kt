@@ -213,7 +213,7 @@ private fun MainTabsContainer(
                                 Box(contentAlignment = androidx.compose.ui.Alignment.Center) {
                                     Icon(
                                         imageVector = Icons.Default.Restaurant,
-                                        contentDescription = "Kitchen Open",
+                                        contentDescription = stringResource(R.string.kitchen_open_title),
                                         tint = MaterialTheme.colorScheme.primary,
                                         modifier = Modifier.size(24.dp)
                                     )
@@ -221,7 +221,7 @@ private fun MainTabsContainer(
                             }
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "OPEN",
+                                text = stringResource(R.string.nav_rail_open_badge),
                                 style = MaterialTheme.typography.labelSmall.copy(
                                     fontWeight = FontWeight.Bold,
                                     letterSpacing = 1.sp

@@ -47,6 +47,22 @@ import com.example.ui.components.RecipeCard
 import com.example.ui.components.RecipeCardSkeleton
 import com.example.ui.components.tvFocusable
 
+data class SearchSuggestion(
+    val query: String,
+    val labelRes: Int
+)
+
+val SEARCH_SUGGESTIONS = listOf(
+    SearchSuggestion("Pasta", R.string.category_pasta),
+    SearchSuggestion("Chicken", R.string.category_chicken),
+    SearchSuggestion("Seafood", R.string.category_seafood),
+    SearchSuggestion("Breakfast", R.string.category_breakfast),
+    SearchSuggestion("Vegetarian", R.string.category_vegetarian),
+    SearchSuggestion("Vegan", R.string.category_vegan),
+    SearchSuggestion("Dessert", R.string.category_dessert),
+    SearchSuggestion("Quick Meals", R.string.category_quick_meals)
+)
+
 @Composable
 fun SearchScreen(
     searchQuery: String,
@@ -58,8 +74,6 @@ fun SearchScreen(
     onBookmarkToggle: (Recipe) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val quickSuggestions = listOf("Pasta", "Chicken", "Salmon", "Garlic", "Curry", "Steak", "Tart", "Risotto", "Soup")
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -122,13 +136,14 @@ fun SearchScreen(
                 .horizontalScroll(rememberScrollState()),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            quickSuggestions.forEach { tag ->
-                val isSelected = searchQuery.equals(tag, ignoreCase = true)
+            SEARCH_SUGGESTIONS.forEach { item ->
+                val localizedText = stringResource(item.labelRes)
+                val isSelected = searchQuery.equals(item.query, ignoreCase = true) || searchQuery.equals(localizedText, ignoreCase = true)
                 SuggestionChip(
-                    onClick = { onQueryChange(tag) },
+                    onClick = { onQueryChange(item.query) },
                     label = {
                         Text(
-                            text = tag,
+                            text = localizedText,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium
                         )
@@ -139,7 +154,7 @@ fun SearchScreen(
                         labelColor = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                     ),
                     border = if (isSelected) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-                    modifier = Modifier.tvFocusable("chip_suggest_$tag", shape = RoundedCornerShape(12.dp), onClick = { onQueryChange(tag) })
+                    modifier = Modifier.tvFocusable("chip_suggest_${item.query}", shape = RoundedCornerShape(12.dp), onClick = { onQueryChange(item.query) })
                 )
             }
         }

@@ -2,7 +2,8 @@ package com.example
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
-import com.example.data.repository.CuratedRecipes
+import com.example.data.model.IngredientItem
+import com.example.data.model.Recipe
 import com.example.ui.components.RecipeCard
 import com.example.ui.theme.MyApplicationTheme
 import com.github.takahirom.roborazzi.RobolectricDeviceQualifiers
@@ -23,7 +24,24 @@ class GreetingScreenshotTest {
 
   @Test
   fun recipe_card_screenshot() {
-    val sampleRecipe = CuratedRecipes.featuredRecipes.first()
+    val sampleRecipe = Recipe(
+      id = "test_1",
+      name = "Arrabiata Penne",
+      category = "Pasta",
+      area = "Italian",
+      instructions = "1. Cook pasta al dente.\n2. Sauté garlic with chili.\n3. Combine and serve.",
+      thumbnailUrl = "",
+      tags = listOf("Pasta", "Quick"),
+      youtubeUrl = null,
+      sourceUrl = null,
+      ingredients = listOf(
+        IngredientItem("Penne", "300g"),
+        IngredientItem("Garlic", "3 cloves")
+      ),
+      baseServings = 4,
+      prepTimeMinutes = 20,
+      difficulty = "Easy"
+    )
     composeTestRule.setContent {
       MyApplicationTheme {
         RecipeCard(
