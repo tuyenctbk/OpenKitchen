@@ -6,7 +6,7 @@
     android:viewportWidth="320"
     android:viewportHeight="180">
 
-    <!-- Background 16:9 Dark Culinary Canvas with Linear Gradient -->
+    <!-- 16:9 Dark Culinary Canvas with Smooth Diagonal Vignette -->
     <path
         android:pathData="M0,0h320v180h-320z">
         <aapt:attr name="android:fillColor">
@@ -17,106 +17,166 @@
                 android:endX="320"
                 android:endY="180"
                 android:type="linear">
-                <item android:color="#120805" android:offset="0.0" />
-                <item android:color="#1F0E08" android:offset="0.45" />
-                <item android:color="#4A180A" android:offset="0.8" />
-                <item android:color="#9E2A0E" android:offset="1.0" />
+                <item android:color="#0D0503" android:offset="0.0" />
+                <item android:color="#1A0905" android:offset="0.38" />
+                <item android:color="#361107" android:offset="0.75" />
+                <item android:color="#781C06" android:offset="1.0" />
             </gradient>
         </aapt:attr>
     </path>
 
-    <!-- Warm Spotlight Behind Culinary Insignia (Left) -->
+    <!-- Warm Radiant Ambient Spotlight Behind Emblem (Left) -->
     <path
-        android:pathData="M78,90m-68,0a68,68 0 1,0 136,0a68,68 0 1,0 -136,0">
+        android:pathData="M76,90m-72,0a72,72 0 1,0 144,0a72,72 0 1,0 -144,0">
         <aapt:attr name="android:fillColor">
             <gradient
-                android:centerX="78"
+                android:centerX="76"
                 android:centerY="90"
-                android:gradientRadius="68"
+                android:gradientRadius="72"
                 android:type="radial">
-                <item android:color="#55FF7043" android:offset="0.0" />
-                <item android:color="#20FFA726" android:offset="0.5" />
+                <item android:color="#55FF6D00" android:offset="0.0" />
+                <item android:color="#25FFA000" android:offset="0.5" />
                 <item android:color="#00000000" android:offset="1.0" />
             </gradient>
         </aapt:attr>
     </path>
 
-    <!-- Ambient Glow on Right -->
+    <!-- Ambient Flare (Top-Right) -->
     <path
-        android:pathData="M270,120m-50,0a50,50 0 1,0 100,0a50,50 0 1,0 -100,0">
+        android:pathData="M270,30m-60,0a60,60 0 1,0 120,0a60,60 0 1,0 -120,0">
         <aapt:attr name="android:fillColor">
             <gradient
                 android:centerX="270"
-                android:centerY="120"
-                android:gradientRadius="50"
+                android:centerY="30"
+                android:gradientRadius="60"
                 android:type="radial">
-                <item android:color="#2EFF8A65" android:offset="0.0" />
+                <item android:color="#30FF7043" android:offset="0.0" />
                 <item android:color="#00000000" android:offset="1.0" />
             </gradient>
         </aapt:attr>
     </path>
 
-    <!-- Decorative Subtle Grid Lines -->
+    <!-- Ambient Glow (Bottom-Right) -->
     <path
-        android:pathData="M0,140 L320,140"
-        android:strokeWidth="1"
-        android:strokeColor="#1AFFCC80"
-        android:fillColor="#00000000" />
+        android:pathData="M290,150m-50,0a50,50 0 1,0 100,0a50,50 0 1,0 -100,0">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="290"
+                android:centerY="150"
+                android:gradientRadius="50"
+                android:type="radial">
+                <item android:color="#26FFAB40" android:offset="0.0" />
+                <item android:color="#00000000" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Subtle Curved Horizon Light Arch -->
     <path
-        android:pathData="M0,40 L320,40"
-        android:strokeWidth="1"
-        android:strokeColor="#0DFFCC80"
+        android:pathData="M0,175 C100,165 220,170 320,155"
+        android:strokeWidth="1.2"
+        android:strokeColor="#1AFFD54F"
         android:fillColor="#00000000" />
 
-    <!-- ==================== LEFT: CULINARY INSIGNIA ==================== -->
-    <!-- Steam Rising -->
+    <!-- ==================== LEFT: GOURMET INSIGNIA ==================== -->
+
+    <!-- Outer Radiant Halo Ring -->
     <path
-        android:pathData="M70,52 C67,48 71,43 69,39 C67,35 63,38 65,42"
-        android:strokeWidth="2.2"
-        android:strokeColor="#FFCC80"
-        android:strokeLineCap="round"
+        android:pathData="M76,90m-53,0a53,53 0 1,0 106,0a53,53 0 1,0 -106,0"
+        android:strokeWidth="2.0"
+        android:strokeColor="#33FFA000"
         android:fillColor="#00000000" />
+
+    <!-- Outer Golden Medallion Ring -->
     <path
-        android:pathData="M78,48 C75,44 79,39 77,35 C75,31 71,34 73,38"
-        android:strokeWidth="2.6"
+        android:pathData="M76,90m-50,0a50,50 0 1,0 100,0a50,50 0 1,0 -100,0">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:angle="45"
+                android:startX="26"
+                android:startY="40"
+                android:endX="126"
+                android:endY="140"
+                android:type="linear">
+                <item android:color="#FFE082" android:offset="0.0" />
+                <item android:color="#FFA000" android:offset="0.5" />
+                <item android:color="#FF6F00" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Medallion Inner Dark Mahogany Backing -->
+    <path
+        android:pathData="M76,90m-46,0a46,46 0 1,0 92,0a46,46 0 1,0 -92,0">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:angle="90"
+                android:startX="76"
+                android:startY="44"
+                android:endX="76"
+                android:endY="136"
+                android:type="linear">
+                <item android:color="#2B0E07" android:offset="0.0" />
+                <item android:color="#1A0704" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Inner Gold Pinstripe Ring -->
+    <path
+        android:pathData="M76,90m-43,0a43,43 0 1,0 86,0a43,43 0 1,0 -86,0"
+        android:strokeWidth="1.2"
+        android:strokeColor="#66FFD54F"
+        android:fillColor="#00000000" />
+
+    <!-- Rising Culinary Steam Curls -->
+    <path
+        android:pathData="M76,46 C74,41 78,36 76,31 C74,27 70,30 72,34"
+        android:strokeWidth="2.4"
         android:strokeColor="#FFE082"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
     <path
-        android:pathData="M86,52 C83,48 87,43 85,39 C83,35 79,38 81,42"
-        android:strokeWidth="2.2"
+        android:pathData="M68,50 C65,45 69,41 67,37 C65,33 62,36 63,40"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FFCC80"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M84,50 C81,45 85,41 83,37 C81,33 78,36 79,40"
+        android:strokeWidth="1.8"
         android:strokeColor="#FFCC80"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
 
-    <!-- Chef Hat Silhouetted Crown -->
+    <!-- Executive Chef Toque (Crown) -->
     <path
-        android:fillColor="#FFF8E7"
-        android:pathData="M78,54 C72,54 68,58 66,61 C61,58 55,61 56,67 C52,70 52,78 57,83 C59,85 63,86 65,86 L91,86 C93,86 97,85 99,83 C104,78 104,70 100,67 C101,61 95,58 90,61 C88,58 84,54 78,54 Z" />
+        android:fillColor="#FFFDF7"
+        android:pathData="M76,52 C70,52 66,55 64,59 C59,56 53,59 54,65 C50,68 50,76 54,80 C56,82 60,83 63,83 L89,83 C92,83 96,82 98,80 C102,76 102,68 98,65 C99,59 93,56 88,59 C86,55 82,52 76,52 Z" />
 
-    <!-- Chef Hat Folds -->
+    <!-- Toque Crease Shadows -->
     <path
-        android:pathData="M70,62 C71,68 72,78 72,86 M78,57 C78,68 78,78 78,86 M86,62 C85,68 84,78 84,86"
-        android:strokeWidth="1.5"
-        android:strokeColor="#E6D3B3"
+        android:pathData="M68,60 C69,67 70,75 70,83 M76,55 C76,65 76,74 76,83 M84,60 C83,67 82,75 82,83"
+        android:strokeWidth="1.6"
+        android:strokeColor="#E8D5B7"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
 
-    <!-- Hat Band (Amber Gold) -->
+    <!-- Golden Chef Toque Band -->
     <path
         android:fillColor="#FFA000"
-        android:pathData="M61,87 L95,87 A2,2 0 0,1 97,89 L97,93 A2,2 0 0,1 95,95 L61,95 A2,2 0 0,1 59,93 L59,89 A2,2 0 0,1 61,87 Z" />
+        android:pathData="M59,84 L93,84 A2,2 0 0,1 95,86 L95,89 A2,2 0 0,1 93,91 L59,91 A2,2 0 0,1 57,89 L57,86 A2,2 0 0,1 59,84 Z" />
 
-    <!-- Serving Cloche Dome Base -->
+    <!-- Serving Cloche Dome -->
     <path
-        android:pathData="M50,100 C50,87 63,80 78,80 C93,80 106,87 106,100 Z">
+        android:pathData="M48,99 C48,86 60,80 76,80 C92,80 104,86 104,99 Z">
         <aapt:attr name="android:fillColor">
             <gradient
                 android:angle="90"
-                android:startX="78"
+                android:startX="76"
                 android:startY="80"
-                android:endX="78"
-                android:endY="100"
+                android:endX="76"
+                android:endY="99"
                 android:type="linear">
                 <item android:color="#FF7043" android:offset="0.0" />
                 <item android:color="#D84315" android:offset="1.0" />
@@ -124,181 +184,232 @@
         </aapt:attr>
     </path>
 
-    <!-- Cloche Specular Highlight -->
+    <!-- Cloche Specular Highlight Sheen -->
     <path
-        android:pathData="M60,86 C67,82 76,82 82,83"
+        android:pathData="M58,86 C65,83 73,83 80,84"
         android:strokeWidth="2.2"
-        android:strokeColor="#80FFFFFF"
+        android:strokeColor="#99FFFFFF"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
 
-    <!-- Cloche Gold Handle -->
+    <!-- Cloche Gold Handle Knob -->
     <path
         android:fillColor="#FFD54F"
-        android:pathData="M78,76m-4,0a4,4 0 1,0 8,0a4,4 0 1,0 -8,0" />
+        android:pathData="M76,78m-3.5,0a3.5,3.5 0 1,0 7,0a3.5,3.5 0 1,0 -7,0" />
 
-    <!-- Service Platter Base -->
+    <!-- Serving Platter Tray Rim -->
     <path
         android:fillColor="#BF360C"
-        android:pathData="M44,100 L112,100 C114,100 116,101 115,103 L111,107 L45,107 L41,103 C40,101 42,100 44,100 Z" />
+        android:pathData="M42,99 L110,99 C112,99 113.5,100.5 112.5,102.5 L109,106.5 L43,106.5 L39.5,102.5 C38.5,100.5 40,99 42,99 Z" />
 
     <!-- Platter Gold Accent Line -->
     <path
-        android:pathData="M48,103 L108,103"
-        android:strokeWidth="2"
+        android:pathData="M45,103 L107,103"
+        android:strokeWidth="2.0"
         android:strokeColor="#FFD54F"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
 
-    <!-- Crossed Utensils Below Platter -->
+    <!-- Crossed Gourmet Cutlery (Fork & Knife) -->
     <path
-        android:pathData="M52,126 L104,111"
-        android:strokeWidth="2.8"
+        android:pathData="M52,123 L100,109"
+        android:strokeWidth="2.6"
         android:strokeColor="#FFE082"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
     <path
         android:fillColor="#FFD54F"
-        android:pathData="M103,108 C105,107 109,109 108,113 C107,115 103,114 102,111 Z" />
+        android:pathData="M98,107 C101,105 104,107 103,111 C102,113 99,112 98,109 Z" />
 
     <path
-        android:pathData="M104,126 L52,111"
-        android:strokeWidth="2.8"
+        android:pathData="M100,123 L52,109"
+        android:strokeWidth="2.6"
         android:strokeColor="#FFE082"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
     <path
         android:fillColor="#FFD54F"
-        android:pathData="M53,108 C51,107 47,109 48,113 C49,115 53,114 54,111 Z" />
+        android:pathData="M54,107 C51,105 48,107 49,111 C50,113 53,112 54,109 Z" />
 
-    <!-- Center Pivot Gem -->
+    <!-- Center Pivot Star Gem -->
     <path
         android:fillColor="#FFA000"
-        android:pathData="M78,118.5m-2.5,0a2.5,2.5 0 1,0 5,0a2.5,2.5 0 1,0 -5,0" />
-
-    <!-- Sparkle Stars -->
+        android:pathData="M76,116m-3,0a3,3 0 1,0 6,0a3,3 0 1,0 -6,0" />
     <path
         android:fillColor="#FFE082"
-        android:pathData="M108,54 L110,58 L114,60 L110,62 L108,66 L106,62 L102,60 L106,58 Z" />
+        android:pathData="M76,116m-1.2,0a1.2,1.2 0 1,0 2.4,0a1.2,1.2 0 1,0 -2.4,0" />
+
+    <!-- Sparkle Stars Flanking Medallion -->
     <path
         android:fillColor="#FFD54F"
-        android:pathData="M48,60 L49.5,63 L52.5,64.5 L49.5,66 L48,69 L46.5,66 L43.5,64.5 L46.5,63 Z" />
-
-    <!-- ==================== RIGHT: BRAND LOGOTYPE & BADGES ==================== -->
-
-    <!-- Top Badge: "ANDROID TV EDITION" (Pill Container strictly inside TV safe area) -->
+        android:pathData="M26,72 L27.5,74.5 L30,76 L27.5,77.5 L26,80 L24.5,77.5 L22,76 L24.5,74.5 Z" />
     <path
-        android:fillColor="#33FF8A65"
-        android:pathData="M130,36 L250,36 A7,7 0 0,1 257,43 L257,47 A7,7 0 0,1 250,54 L130,54 A7,7 0 0,1 123,47 L123,43 A7,7 0 0,1 130,36 Z" />
+        android:fillColor="#FFD54F"
+        android:pathData="M126,72 L127.5,74.5 L130,76 L127.5,77.5 L126,80 L124.5,77.5 L122,76 L124.5,74.5 Z" />
+
+    <!-- ==================== RIGHT: BRANDING & TYPOGRAPHY ==================== -->
+
+    <!-- Top Badge Container: Translucent Dark Glass Pill -->
     <path
-        android:pathData="M130,36 L250,36 A7,7 0 0,1 257,43 L257,47 A7,7 0 0,1 250,54 L130,54 A7,7 0 0,1 123,47 L123,43 A7,7 0 0,1 130,36 Z"
-        android:strokeWidth="1"
+        android:fillColor="#3D000000"
+        android:pathData="M142,30 L286,30 A7,7 0 0,1 293,37 L293,43 A7,7 0 0,1 286,50 L142,50 A7,7 0 0,1 135,43 L135,37 A7,7 0 0,1 142,30 Z" />
+    <path
+        android:pathData="M142,30 L286,30 A7,7 0 0,1 293,37 L293,43 A7,7 0 0,1 286,50 L142,50 A7,7 0 0,1 135,43 L135,37 A7,7 0 0,1 142,30 Z"
+        android:strokeWidth="1.2"
         android:strokeColor="#66FFB74D"
         android:fillColor="#00000000" />
 
-    <!-- Small TV Icon inside pill -->
+    <!-- Top Badge: TV Screen Icon -->
     <path
         android:fillColor="#FFE082"
-        android:pathData="M132,41 L144,41 A1.5,1.5 0 0,1 145.5,42.5 L145.5,47.5 A1.5,1.5 0 0,1 144,49 L132,49 A1.5,1.5 0 0,1 130.5,47.5 L130.5,42.5 A1.5,1.5 0 0,1 132,41 Z" />
+        android:pathData="M143,34 L153,34 A1.5,1.5 0 0,1 154.5,35.5 L154.5,41.5 A1.5,1.5 0 0,1 153,43 L143,43 A1.5,1.5 0 0,1 141.5,41.5 L141.5,35.5 A1.5,1.5 0 0,1 143,34 Z" />
     <path
-        android:fillColor="#21110B"
-        android:pathData="M132.5,42.5 L143.5,42.5 L143.5,47.5 L132.5,47.5 Z" />
+        android:fillColor="#1A0A06"
+        android:pathData="M143.5,35.5 L152.5,35.5 L152.5,41.5 L143.5,41.5 Z" />
     <path
-        android:pathData="M136,50 L140,50 M138,49.5 L138,51.5"
+        android:pathData="M145.5,44.5 L150.5,44.5 M148,43 L148,44.5"
         android:strokeWidth="1"
+        android:strokeColor="#FFE082"
+        android:fillColor="#00000000" />
+
+    <!-- Top Badge: 3 Golden Michelin Stars -->
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M160,37 L161,39 L163,39.5 L161.5,41 L162,43 L160,42 L158,43 L158.5,41 L157,39.5 L159,39 Z" />
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M168,37 L169,39 L171,39.5 L169.5,41 L170,43 L168,42 L166,43 L166.5,41 L165,39.5 L167,39 Z" />
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M176,37 L177,39 L179,39.5 L177.5,41 L178,43 L176,42 L174,43 L174.5,41 L173,39.5 L175,39 Z" />
+
+    <!-- Top Badge: "ANDROID TV EDITION" Vector Lettering -->
+    <path
+        android:pathData="M186,43.5 L188.5,36.5 L191,43.5 M187,41.5 L190,41.5 M193,43.5 L193,36.5 L197,43.5 L197,36.5 M199,43.5 L199,36.5 L202,36.5 C203.8,36.5 205,38 205,40 C205,42 203.8,43.5 202,43.5 Z M207,43.5 L207,36.5 L210,36.5 C211.5,36.5 212.5,37.5 212.5,39 C212.5,40.5 211.5,41.5 210,41.5 L207,41.5 M209.5,41.5 L212.5,43.5 M215.5,37 C214.5,38 214.5,42 215.5,43 C216.5,44 218.5,44 219.5,43 C220.5,42 220.5,38 219.5,37 C218.5,36 216.5,36 215.5,37 Z M222.5,36.5 L222.5,43.5 M225,43.5 L225,36.5 L227.5,36.5 C229.5,36.5 230.5,38 230.5,40 C230.5,42 229.5,43.5 227.5,43.5 Z M234,36.5 L239,36.5 M236.5,36.5 L236.5,43.5 M241,36.5 L243.5,43.5 L246,36.5 M253,36.5 L257.5,36.5 M253,36.5 L253,43.5 L257.5,43.5 M253,40 L256.5,40 M260,43.5 L260,36.5 L262.5,36.5 C264.5,36.5 265.5,38 265.5,40 C265.5,42 264.5,43.5 262.5,43.5 Z M268,36.5 L268,43.5 M270.5,36.5 L275.5,36.5 M273,36.5 L273,43.5 M277.5,36.5 L277.5,43.5 M280.5,37 C279.5,38 279.5,42 280.5,43 C281.5,44 283.5,44 284.5,43 C285.5,42 285.5,38 284.5,37 C283.5,36 281.5,36 280.5,37 Z M287,43.5 L287,36.5 L291,43.5 L291,36.5"
+        android:strokeWidth="1.2"
+        android:strokeColor="#FFF8E7"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M249.5,40m-1,0a1,1 0 1,0 2,0a1,1 0 1,0 -2,0" />
+
+    <!-- ==================== PRIMARY TITLE: "OPEN" ==================== -->
+    <!-- Crisp Warm Ivory Geometric Letterforms with evenOdd Punch -->
+    <path
+        android:fillColor="#FFFDF7"
+        android:fillType="evenOdd"
+        android:pathData="
+            M146,56 L156,56 A10,10 0 0,1 166,66 L166,78 A10,10 0 0,1 156,88 L146,88 A10,10 0 0,1 136,78 L136,66 A10,10 0 0,1 146,56 Z
+            M147,62 L155,62 A5,5 0 0,1 160,67 L160,77 A5,5 0 0,1 155,82 L147,82 A5,5 0 0,1 142,77 L142,67 A5,5 0 0,1 147,62 Z
+            M174,56 L192,56 A10,10 0 0,1 202,66 L202,66 A10,10 0 0,1 192,76 L180,76 L180,88 L174,88 Z
+            M180,62 L192,62 A4,4 0 0,1 196,66 L196,66 A4,4 0 0,1 192,70 L180,70 Z
+            M212,56 L238,56 L238,62 L218,62 L218,69 L235,69 L235,75 L218,75 L218,82 L238,82 L238,88 L212,88 Z
+            M248,56 L254,56 L276,82 L276,56 L282,56 L282,88 L276,88 L254,62 L254,88 L248,88 Z" />
+
+    <!-- ==================== SECONDARY TITLE: "KITCHEN" ==================== -->
+    <!-- Rich Amber Gold Gradient Letterforms -->
+    <path
+        android:fillType="evenOdd"
+        android:pathData="
+            M136,94 L142,94 L142,106.5 L151,94 L158,94 L147.5,108.5 L159,124 L151.5,124 L142,111 L142,124 L136,124 Z
+            M163,94 L169,94 L169,124 L163,124 Z
+            M174,94 L192,94 L192,100 L186,100 L186,124 L180,124 L180,100 L174,100 Z
+            M205,94 L215,94 L215,100 L205,100 A5,5 0 0,0 200,105 L200,113 A5,5 0 0,0 205,118 L215,118 L215,124 L205,124 A11,11 0 0,1 194,113 L194,105 A11,11 0 0,1 205,94 Z
+            M220,94 L226,94 L226,106 L232,106 L232,94 L238,94 L238,124 L232,124 L232,112 L226,112 L226,124 L220,124 Z
+            M243,94 L260,94 L260,100 L249,100 L249,106 L257,106 L257,111.5 L249,111.5 L249,118.5 L260,118.5 L260,124 L243,124 Z
+            M265,94 L270,94 L277,115 L277,94 L282,94 L282,124 L277,124 L270,103 L270,124 L265,124 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:angle="90"
+                android:startX="136"
+                android:startY="94"
+                android:endX="282"
+                android:endY="124"
+                android:type="linear">
+                <item android:color="#FFE082" android:offset="0.0" />
+                <item android:color="#FFB300" android:offset="0.55" />
+                <item android:color="#FF8F00" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- ==================== DIVIDER & SUBTITLE BADGE ==================== -->
+    <!-- Gold Hairline Divider with Center Diamond -->
+    <path
+        android:pathData="M136,132 L200,132"
+        android:strokeWidth="1.0"
+        android:strokeColor="#80FFD54F"
+        android:fillColor="#00000000" />
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M209,129.5 L211.5,132 L209,134.5 L206.5,132 Z" />
+    <path
+        android:pathData="M218,132 L282,132"
+        android:strokeWidth="1.0"
+        android:strokeColor="#80FFD54F"
+        android:fillColor="#00000000" />
+
+    <!-- Bottom Feature Pill Container -->
+    <path
+        android:fillColor="#3D000000"
+        android:pathData="M142,140 L276,140 A10,10 0 0,1 286,150 L286,154 A10,10 0 0,1 276,164 L142,164 A10,10 0 0,1 132,154 L132,150 A10,10 0 0,1 142,140 Z" />
+    <path
+        android:pathData="M142,140 L276,140 A10,10 0 0,1 286,150 L286,154 A10,10 0 0,1 276,164 L142,164 A10,10 0 0,1 132,154 L132,150 A10,10 0 0,1 142,140 Z"
+        android:strokeWidth="1.2"
+        android:strokeColor="#59FFB74D"
+        android:fillColor="#00000000" />
+
+    <!-- Cooking Timer Icon (Left inside pill) -->
+    <path
+        android:pathData="M144,152m-4.5,0a4.5,4.5 0 1,0 9,0a4.5,4.5 0 1,0 -9,0"
+        android:strokeWidth="1.2"
+        android:strokeColor="#FFE082"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M144,149.5 L144,152 L146,153.5"
+        android:strokeWidth="1.2"
+        android:strokeColor="#FFD54F"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M143,146.5 L145,146.5"
+        android:strokeWidth="1.2"
         android:strokeColor="#FFE082"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
 
-    <!-- 3 Golden Michelin Stars in Top Badge -->
+    <!-- "COOK MODE • OFFLINE" Vector Lettering -->
+    <path
+        android:pathData="
+            M157,149 C156,148.5 154,148.5 153,150 L153,154 C154,155.5 156,155.5 157,155
+            M159.5,149 C158.5,150 158.5,154 159.5,155 C160.5,156 162,156 163,155 C164,154 164,150 163,149 C162,148 160.5,148 159.5,149 Z
+            M166.5,149 C165.5,150 165.5,154 166.5,155 C167.5,156 169,156 170,155 C171,154 171,150 170,149 C169,148 167.5,148 166.5,149 Z
+            M173,148.5 L173,155.5 M177,148.5 L173.5,152 L177.5,155.5
+            M183,155.5 L183,148.5 L186,152.5 L189,148.5 L189,155.5
+            M191.5,149 C190.5,150 190.5,154 191.5,155 C192.5,156 194,156 195,155 C196,154 196,150 195,149 C194,148 192.5,148 191.5,149 Z
+            M198,155.5 L198,148.5 L200.5,148.5 C202.5,148.5 203.5,150 203.5,152 C203.5,154 202.5,155.5 200.5,155.5 Z
+            M206,148.5 L210,148.5 M206,148.5 L206,155.5 L210,155.5 M206,152 L209,152
+            M220.5,149 C219.5,150 219.5,154 220.5,155 C221.5,156 223,156 224,155 C225,154 225,150 224,149 C223,148 221.5,148 220.5,149 Z
+            M227,148.5 L231,148.5 M227,148.5 L227,155.5 M227,152 L230,152
+            M233.5,148.5 L237.5,148.5 M233.5,148.5 L233.5,155.5 M233.5,152 L236.5,152
+            M240,148.5 L240,155.5 L243.5,155.5
+            M246,148.5 L246,155.5
+            M248.5,155.5 L248.5,148.5 L252.5,155.5 L252.5,148.5
+            M255,148.5 L259,148.5 M255,148.5 L255,155.5 L259,155.5 M255,152 L258,152"
+        android:strokeWidth="1.2"
+        android:strokeColor="#FFF8E7"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
     <path
         android:fillColor="#FFD54F"
-        android:pathData="M156,46 L157,44 L158,46 L160,46 L158.5,47.5 L159,49.5 L157,48 L155,49.5 L155.5,47.5 L154,46 Z" />
-    <path
-        android:fillColor="#FFD54F"
-        android:pathData="M166,46 L167,44 L168,46 L170,46 L168.5,47.5 L169,49.5 L167,48 L165,49.5 L165.5,47.5 L164,46 Z" />
-    <path
-        android:fillColor="#FFD54F"
-        android:pathData="M176,46 L177,44 L178,46 L180,46 L178.5,47.5 L179,49.5 L177,48 L175,49.5 L175.5,47.5 L174,46 Z" />
+        android:pathData="M215,152m-1.2,0a1.2,1.2 0 1,0 2.4,0a1.2,1.2 0 1,0 -2.4,0" />
 
-    <!-- "TV EDITION" text bar accent -->
+    <!-- Flame Accent (Right inside pill) -->
     <path
-        android:fillColor="#FFE082"
-        android:pathData="M188,44.5 L246,44.5 A1,1 0 0,1 247,45.5 L247,45.5 A1,1 0 0,1 246,46.5 L188,46.5 A1,1 0 0,1 187,45.5 L187,45.5 A1,1 0 0,1 188,44.5 Z" />
+        android:fillColor="#FF7043"
+        android:pathData="M272,155.5 C269.5,155.5 268.5,153.5 270.5,151.5 C271.5,150.5 270.5,148.5 273,147.5 C273,149.5 275.5,150.5 275.5,152.5 C275.5,154.5 274,155.5 272,155.5 Z" />
 
-    <!-- Brand Header: "OPEN KITCHEN" -->
-    <!-- 'O' -->
-    <path
-        android:fillColor="#FFF8E7"
-        android:pathData="M128,66 C128,62 131,59 136,59 L140,59 C145,59 148,62 148,66 L148,86 C148,90 145,93 140,93 L136,93 C131,93 128,90 128,86 Z M134,67 L134,85 C134,87 135,88 137,88 L139,88 C141,88 142,87 142,85 L142,67 C142,65 141,64 139,64 L137,64 C135,64 134,65 134,67 Z" />
-
-    <!-- 'P' -->
-    <path
-        android:fillColor="#FFF8E7"
-        android:pathData="M152,59 L166,59 C171,59 174,62 174,67 L174,71 C174,76 171,79 166,79 L158,79 L158,93 L152,93 Z M158,64 L158,74 L165,74 C167,74 168,73 168,71 L168,67 C168,65 167,64 165,64 Z" />
-
-    <!-- 'E' -->
-    <path
-        android:fillColor="#FFF8E7"
-        android:pathData="M178,59 L196,59 L196,64 L184,64 L184,73 L194,73 L194,78 L184,78 L184,88 L196,88 L196,93 L178,93 Z" />
-
-    <!-- 'N' -->
-    <path
-        android:fillColor="#FFF8E7"
-        android:pathData="M200,59 L206,59 L216,82 L216,59 L222,59 L222,93 L216,93 L206,70 L206,93 L200,93 Z" />
-
-    <!-- Second Line: 'KITCHEN' (Warm Golden Amber) -->
-    <!-- 'K' -->
-    <path
-        android:fillColor="#FFD54F"
-        android:pathData="M128,101 L134,101 L134,116 L144,101 L151,101 L140,117 L152,135 L145,135 L134,119 L134,135 L128,135 Z" />
-
-    <!-- 'I' -->
-    <path
-        android:fillColor="#FFD54F"
-        android:pathData="M155,101 L161,101 L161,135 L155,135 Z" />
-
-    <!-- 'T' -->
-    <path
-        android:fillColor="#FFD54F"
-        android:pathData="M164,101 L180,101 L180,106 L175,106 L175,135 L169,135 L169,106 L164,106 Z" />
-
-    <!-- 'C' -->
-    <path
-        android:fillColor="#FFD54F"
-        android:pathData="M183,108 C183,103 186,101 192,101 L197,101 C201,101 203,102 204,104 L200,108 C199,107 198,106 196,106 L192,106 C190,106 189,108 189,111 L189,125 C189,128 190,130 192,130 L196,130 C198,130 199,129 200,128 L204,132 C203,134 201,135 197,135 L192,135 C186,135 183,133 183,128 Z" />
-
-    <!-- 'H' -->
-    <path
-        android:fillColor="#FFD54F"
-        android:pathData="M208,101 L214,101 L214,115 L224,115 L224,101 L230,101 L230,135 L224,135 L224,121 L214,121 L214,135 L208,135 Z" />
-
-    <!-- 'E' -->
-    <path
-        android:fillColor="#FFD54F"
-        android:pathData="M234,101 L248,101 L248,106 L240,106 L240,115 L247,115 L247,120 L240,120 L240,130 L248,130 L248,135 L234,135 Z" />
-
-    <!-- 'N' -->
-    <path
-        android:fillColor="#FFD54F"
-        android:pathData="M252,101 L258,101 L267,122 L267,101 L272,101 L272,135 L267,135 L258,114 L258,135 L252,135 Z" />
-
-    <!-- Bottom Feature Tag Pill: "INTERACTIVE COOK MODE • OFFLINE RECIPES" (Strictly <= 280 width) -->
-    <path
-        android:fillColor="#26FFFFFF"
-        android:pathData="M128,144 L276,144 A4,4 0 0,1 280,148 L280,158 A4,4 0 0,1 276,162 L128,162 A4,4 0 0,1 124,158 L124,148 A4,4 0 0,1 128,144 Z" />
-
-    <!-- Subtle Feature Accent Dots -->
-    <path
-        android:fillColor="#FFCC80"
-        android:pathData="M132,153m-2,0a2,2 0 1,0 4,0a2,2 0 1,0 -4,0" />
-    <path
-        android:fillColor="#FFCC80"
-        android:pathData="M138,151 L196,151 A1,1 0 0,1 197,152 L197,154 A1,1 0 0,1 196,155 L138,155 A1,1 0 0,1 137,154 L137,152 A1,1 0 0,1 138,151 Z" />
-    <path
-        android:fillColor="#FFD54F"
-        android:pathData="M202,153m-2,0a2,2 0 1,0 4,0a2,2 0 1,0 -4,0" />
-    <path
-        android:fillColor="#FFE082"
-        android:pathData="M208,151 L272,151 A1,1 0 0,1 273,152 L273,154 A1,1 0 0,1 272,155 L208,155 A1,1 0 0,1 207,154 L207,152 A1,1 0 0,1 208,151 Z" />
 </vector>
