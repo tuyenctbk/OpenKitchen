@@ -51,12 +51,25 @@ class RecipeRepository(
         dao.updateUserNotes(id, notes)
     }
 
+    private val defaultCategories = listOf(
+        CategoryDto("1", "Breakfast", null, null),
+        CategoryDto("2", "Vegan", null, null),
+        CategoryDto("3", "Quick Meals", null, null),
+        CategoryDto("4", "Vegetarian", null, null),
+        CategoryDto("5", "Pasta", null, null),
+        CategoryDto("6", "Seafood", null, null),
+        CategoryDto("7", "Dessert", null, null),
+        CategoryDto("8", "Chicken", null, null),
+        CategoryDto("9", "Beef", null, null)
+    )
+
     suspend fun getCategories(): List<CategoryDto> = withContext(Dispatchers.IO) {
         try {
             val response = api.getCategories()
             val apiCategories = response.categories ?: emptyList()
+            if (apiCategories.isEmpty()) return@withContext defaultCategories
             val priorityOrder = listOf(
-                "Breakfast", "Vegan", "Starter", "Vegetarian",
+                "Breakfast", "Vegan", "Quick Meals", "Starter", "Vegetarian",
                 "Pasta", "Seafood", "Dessert", "Chicken", "Beef"
             )
             apiCategories.sortedBy { cat ->
@@ -64,7 +77,7 @@ class RecipeRepository(
                 if (idx != -1) idx else 100
             }
         } catch (e: Exception) {
-            emptyList()
+            defaultCategories
         }
     }
 
@@ -121,11 +134,40 @@ class RecipeRepository(
                 async {
                     try {
                         api.lookupById(m.idMeal).meals?.firstOrNull()?.let { Recipe.fromDto(it) }
+                            ?: Recipe(
+                                id = m.idMeal,
+                                name = m.strMeal,
+                                category = category,
+                                area = "International",
+                                instructions = "Follow recipe instructions and enjoy your meal.",
+                                thumbnailUrl = m.strMealThumb.orEmpty(),
+                                tags = listOf(category),
+                                youtubeUrl = null,
+                                sourceUrl = null,
+                                ingredients = emptyList(),
+                                baseServings = 4,
+                                prepTimeMinutes = 25,
+                                difficulty = "Medium"
+                            )
                     } catch (e: Exception) {
-                        null
+                        Recipe(
+                            id = m.idMeal,
+                            name = m.strMeal,
+                            category = category,
+                            area = "International",
+                            instructions = "Follow recipe instructions and enjoy your meal.",
+                            thumbnailUrl = m.strMealThumb.orEmpty(),
+                            tags = listOf(category),
+                            youtubeUrl = null,
+                            sourceUrl = null,
+                            ingredients = emptyList(),
+                            baseServings = 4,
+                            prepTimeMinutes = 25,
+                            difficulty = "Medium"
+                        )
                     }
                 }
-            }.awaitAll().filterNotNull()
+            }.awaitAll()
         } catch (e: Exception) {
             emptyList()
         }

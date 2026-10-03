@@ -127,8 +127,10 @@ fun RecipeDetailScreen(
                 actions = {
                     if (!recipe.youtubeUrl.isNullOrBlank()) {
                         val openVideoAction = {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(recipe.youtubeUrl))
-                            context.startActivity(intent)
+                            try {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(recipe.youtubeUrl))
+                                context.startActivity(intent)
+                            } catch (_: Exception) {}
                         }
                         IconButton(
                             onClick = openVideoAction,

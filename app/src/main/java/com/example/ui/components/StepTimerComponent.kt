@@ -1,5 +1,6 @@
 package com.example.ui.components
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
@@ -254,6 +255,7 @@ fun StepTimerComponent(
     }
 }
 
+@SuppressLint("MissingPermission")
 @Suppress("DEPRECATION")
 private fun triggerHaptic(context: Context) {
     try {

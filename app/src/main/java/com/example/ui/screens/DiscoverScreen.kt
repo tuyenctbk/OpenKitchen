@@ -523,7 +523,12 @@ fun FeaturedHeroBanner(
                 Spacer(modifier = Modifier.height(14.dp))
 
                 // Action Buttons
-                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
                     Button(
                         onClick = onViewRecipe,
                         colors = ButtonDefaults.buttonColors(

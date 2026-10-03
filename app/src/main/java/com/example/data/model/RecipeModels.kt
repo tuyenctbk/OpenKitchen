@@ -240,7 +240,9 @@ data class Recipe(
 
     companion object {
         fun parseInstructions(raw: String): List<CookingStep> {
-            if (raw.isBlank()) return emptyList()
+            if (raw.isBlank()) {
+                return listOf(CookingStep(1, "Prepare ingredients and follow cooking instructions."))
+            }
             // Split by step headers or newlines or double periods
             val rawSteps = raw
                 .split(Regex("""(?:\r?\n\s*\r?\n)|(?:STEP\s+\d+:?)|(?:\d+\.\s+)"""))
@@ -248,10 +250,14 @@ data class Recipe(
                 .filter { it.length > 5 }
 
             val list = if (rawSteps.isEmpty()) {
-                raw.split(Regex("""(?<=[.!?])\s+""")).filter { it.isNotBlank() }
+                raw.split(Regex("""(?<=[.!?])\s+""")).map { it.trim() }.filter { it.isNotBlank() }
             } else rawSteps
 
-            return list.mapIndexed { index, text ->
+            val finalList = if (list.isEmpty()) {
+                listOf(raw.trim())
+            } else list
+
+            return finalList.mapIndexed { index, text ->
                 // Detect timer hint e.g., "cook for 10 minutes" or "bake 25 mins"
                 val timerMinutes = extractTimerMinutes(text)
                 CookingStep(
