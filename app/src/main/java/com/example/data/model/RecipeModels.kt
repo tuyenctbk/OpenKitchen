@@ -89,7 +89,7 @@ data class IngredientItem(
         val parsedVal = if (numStr.contains("/")) {
             val parts = numStr.split("/")
             val numerator = parts.getOrNull(0)?.toDoubleOrNull() ?: 1.0
-            val denominator = parts.getOrNull(1)?.toDoubleOrNull() ?: 1.0
+            val denominator = parts.getOrNull(1)?.toDoubleOrNull()?.takeIf { it != 0.0 } ?: 1.0
             numerator / denominator
         } else {
             numStr.toDoubleOrNull() ?: 1.0

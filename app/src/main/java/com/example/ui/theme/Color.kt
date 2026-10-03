@@ -2,40 +2,41 @@ package com.example.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Professional Polish Color System
-val PolishPrimary = Color(0xFF6750A4)
+// Gourmet Culinary Spiced Terracotta & Amber Color System
+val PolishPrimary = Color(0xFFC84B26)
 val PolishOnPrimary = Color(0xFFFFFFFF)
-val PolishPrimaryContainer = Color(0xFFE8DEF8)
-val PolishOnPrimaryContainer = Color(0xFF1D192B)
+val PolishPrimaryContainer = Color(0xFFFFDBCF)
+val PolishOnPrimaryContainer = Color(0xFF3B0900)
 
-val PolishSecondary = Color(0xFF625B71)
+val PolishSecondary = Color(0xFF8C4F27)
 val PolishOnSecondary = Color(0xFFFFFFFF)
-val PolishSecondaryContainer = Color(0xFFE8DEF8)
-val PolishOnSecondaryContainer = Color(0xFF1D192B)
+val PolishSecondaryContainer = Color(0xFFFFDCBE)
+val PolishOnSecondaryContainer = Color(0xFF2C1500)
 
-val PolishTertiary = Color(0xFF7D5260)
+val PolishTertiary = Color(0xFFB45309)
 val PolishOnTertiary = Color(0xFFFFFFFF)
-val PolishTertiaryContainer = Color(0xFFFFD8E4)
-val PolishOnTertiaryContainer = Color(0xFF31111D)
+val PolishTertiaryContainer = Color(0xFFFFE082)
+val PolishOnTertiaryContainer = Color(0xFF2E1500)
 
-// Surfaces & Backgrounds
-val PolishBackgroundLight = Color(0xFFFEF7FF)
+// Surfaces & Backgrounds (Warm Organic Vanilla Cream)
+val PolishBackgroundLight = Color(0xFFFDFBF7)
 val PolishSurfaceLight = Color(0xFFFFFFFF)
-val PolishSurfaceVariantLight = Color(0xFFF3EDF7)
-val PolishOutlineLight = Color(0xFFCAC4D0)
-val PolishTextPrimaryLight = Color(0xFF1D1B20)
-val PolishTextSecondaryLight = Color(0xFF49454F)
+val PolishSurfaceVariantLight = Color(0xFFF6EDE7)
+val PolishOutlineLight = Color(0xFFD7CCC8)
+val PolishTextPrimaryLight = Color(0xFF211510)
+val PolishTextSecondaryLight = Color(0xFF6D5D55)
 
 // Dark / Hero Card Contrast
-val PolishHeroCardDark = Color(0xFF1D1B20)
+val PolishHeroCardDark = Color(0xFF1E100A)
 
-// Dark Theme (for TV & Dark Mode)
-val PolishBackgroundDark = Color(0xFF141218)
-val PolishSurfaceDark = Color(0xFF1D1B20)
-val PolishSurfaceVariantDark = Color(0xFF2B262F)
-val PolishOutlineDark = Color(0xFF49454F)
-val PolishTextPrimaryDark = Color(0xFFE6E1E5)
-val PolishTextSecondaryDark = Color(0xFFCAC4D0)
-val PolishPrimaryDark = Color(0xFFD0BCFF)
-val PolishPrimaryContainerDark = Color(0xFF4F378B)
-val PolishOnPrimaryDark = Color(0xFF381E72)
+// Dark Theme (for TV & Dark Mode: Deep Roasted Espresso Canvas)
+val PolishBackgroundDark = Color(0xFF140A06)
+val PolishSurfaceDark = Color(0xFF1E100A)
+val PolishSurfaceVariantDark = Color(0xFF2C160E)
+val PolishOutlineDark = Color(0xFF5D4037)
+val PolishTextPrimaryDark = Color(0xFFFFF7F2)
+val PolishTextSecondaryDark = Color(0xFFD7CCC8)
+val PolishPrimaryDark = Color(0xFFFF7043)
+val PolishPrimaryContainerDark = Color(0xFF5A1E0E)
+val PolishOnPrimaryDark = Color(0xFF3E0C00)
+

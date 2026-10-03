@@ -51,6 +51,16 @@ import com.example.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
+import androidx.compose.foundation.focusable
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import com.example.ui.components.tvFocusable
+
 @Composable
 fun SplashScreen(
     onSplashFinished: () -> Unit,
@@ -61,6 +71,7 @@ fun SplashScreen(
     val textAlpha = remember { Animatable(0f) }
     val textTranslateY = remember { Animatable(30f) }
     val badgeAlpha = remember { Animatable(0f) }
+    val focusRequester = remember { FocusRequester() }
 
     // Infinite breathing glow transition
     val infiniteTransition = rememberInfiniteTransition(label = "splashPulse")
@@ -85,6 +96,7 @@ fun SplashScreen(
     )
 
     LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
         // Stage 1: Logo emblem scales up with smooth easing
         launch {
             logoScale.animateTo(
@@ -131,6 +143,16 @@ fun SplashScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
+            .focusRequester(focusRequester)
+            .focusable()
+            .onKeyEvent { keyEvent ->
+                if (keyEvent.type == KeyEventType.KeyUp) {
+                    onSplashFinished()
+                    true
+                } else {
+                    false
+                }
+            }
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,

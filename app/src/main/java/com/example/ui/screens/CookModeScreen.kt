@@ -68,6 +68,13 @@ import com.example.data.model.Recipe
 import com.example.ui.components.StepTimerComponent
 import com.example.ui.components.tvFocusable
 
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CookModeScreen(
@@ -104,7 +111,29 @@ fun CookModeScreen(
     var showIngredientsSheet by remember { mutableStateOf(false) }
 
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .onKeyEvent { keyEvent ->
+                if (keyEvent.type == KeyEventType.KeyUp) {
+                    when (keyEvent.key) {
+                        Key.DirectionLeft -> {
+                            if (currentStepIndex > 0) {
+                                onPrevStep()
+                                true
+                            } else false
+                        }
+                        Key.DirectionRight -> {
+                            if (isLastStep) {
+                                onExitCookMode()
+                            } else {
+                                onNextStep()
+                            }
+                            true
+                        }
+                        else -> false
+                    }
+                } else false
+            },
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
@@ -176,6 +205,7 @@ fun CookModeScreen(
                     .border(
                         BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.25f))
                     )
+                    .navigationBarsPadding()
             ) {
                 Row(
                     modifier = Modifier

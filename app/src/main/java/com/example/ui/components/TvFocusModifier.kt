@@ -106,7 +106,7 @@ fun Modifier.tvFocusable(
     val haloBrush = Brush.linearGradient(
         colors = listOf(
             focusedBorderColor,
-            Color(0xFFE8DEF8),
+            Color(0xFFFFD54F),
             focusedBorderColor
         )
     )

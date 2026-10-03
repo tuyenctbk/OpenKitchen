@@ -77,6 +77,8 @@ import com.example.ui.components.NutritionVisualizer
 import com.example.ui.components.ServingScaler
 import com.example.ui.components.tvFocusable
 
+import androidx.compose.foundation.layout.navigationBarsPadding
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeDetailScreen(
@@ -93,7 +95,7 @@ fun RecipeDetailScreen(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val servingMultiplier = currentServings.toFloat() / recipe.baseServings.toFloat()
+    val servingMultiplier = currentServings.toFloat() / recipe.baseServings.coerceAtLeast(1).toFloat()
     val checkedIngredients = remember(recipe.id) { mutableStateListOf<Int>() }
     var isEditingNotes by remember { mutableStateOf(false) }
 
@@ -162,7 +164,9 @@ fun RecipeDetailScreen(
                 color = MaterialTheme.colorScheme.surfaceVariant,
                 tonalElevation = 4.dp,
                 shadowElevation = 8.dp,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding()
             ) {
                 Row(
                     modifier = Modifier
@@ -235,7 +239,7 @@ fun RecipeDetailScreen(
                                     colors = listOf(
                                         Color.Transparent,
                                         Color(0x55000000),
-                                        Color(0xEE1D1B20)
+                                        Color(0xEE1E100A)
                                     ),
                                     startY = 50f
                                 )
@@ -265,7 +269,7 @@ fun RecipeDetailScreen(
                         }
 
                         Surface(
-                            color = Color(0x991D1B20),
+                            color = Color(0x991E100A),
                             shape = RoundedCornerShape(10.dp)
                         ) {
                             Row(
@@ -275,7 +279,7 @@ fun RecipeDetailScreen(
                                 Icon(
                                     imageVector = Icons.Default.Schedule,
                                     contentDescription = null,
-                                    tint = Color(0xFFD0BCFF),
+                                    tint = MaterialTheme.colorScheme.primary,
                                     modifier = Modifier.size(13.dp)
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
